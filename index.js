@@ -5,7 +5,7 @@ import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-export const real = ({ proxy = {} }) => {
+export const puppeteerRealBrowser = ({ proxy = {} }) => {
     return new Promise(async (resolve, reject) => {
         try {
             let chromePath = chromium.path;
