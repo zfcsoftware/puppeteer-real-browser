@@ -12,6 +12,23 @@ You can check with services like. If you are using it for a service that checks 
 ```bash
 npm i puppeteer-real-browser
 ```
+## Include
+
+### commanjs
+
+```js
+        const start = async () => {
+            var puppeteerRealBrowser = await import('puppeteer-real-browser')
+            puppeteerRealBrowser = await puppeteerRealBrowser.puppeteerRealBrowser({})
+            var browser = puppeteerRealBrowser.browser
+            var page = puppeteerRealBrowser.page
+        }
+```
+### Module
+
+```js
+import {puppeteerRealBrowser} from 'puppeteer-real-browser'
+```
 
 ## Usage
 
