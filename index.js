@@ -27,7 +27,6 @@ export const puppeteerRealBrowser = ({ proxy = {} }) => {
             await Page.setLifecycleEventsEnabled({ enabled: true });
 
             var data = await axios.get('http://127.0.0.1:' + chrome.port + '/json/version').then(response => {
-                console.log(response.data);
                 return response.data.webSocketDebuggerUrl
             })
                 .catch(err => {
