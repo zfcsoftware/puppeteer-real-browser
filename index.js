@@ -69,32 +69,3 @@ export const real = ({ proxy = {} }) => {
         }
     })
 }
-
-real({})
-    .then(response => {
-        var browser = response.browser
-        var page = response.page
-    })
-real({
-    proxy: {
-        host: '<proxy-host>',
-        port: '<proxy-port>',
-    }
-})
-.then(response => {
-    var browser = response.browser
-    var page = response.page
-})
-real({
-    proxy: {
-        host: '<proxy-host>',
-        port: '<proxy-port>',
-        username: '<proxy-username>',
-        password: '<proxy-password>'
-    }
-})
-.then(async response => {
-    var browser = response.browser
-    var page = response.page
-    await page.goto('https://auth0.openai.com/u/email-verification')
-})
