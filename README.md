@@ -6,4 +6,63 @@ https://fingerprint.com/demo/
 You can check with services like. If you are using it for a service that checks fingerprints, you can get caught.
 2) It serves on a port on localhost to act like a real browser. The port must be closed when the process is finished. To close it, simply call browser.close(). In this method, operations to close the port are performed.
 3) Currently only available with windows. 
-# Usage
+
+## installation
+
+```bash
+npm i puppeteer-real-browser
+```
+
+## Usage
+
+Use without proxy:
+
+```js
+const puppeteerRealBrowser = require('puppeteer-real-browser')
+
+puppeteerRealBrowser.real({})
+    .then(async response => {
+        var browser = response.browser
+        var page = response.page
+        await page.goto('https://auth0.openai.com/u/email-verification')
+    })
+```
+
+Use with a proxy without auth information:
+
+```js
+const puppeteerRealBrowser = require('puppeteer-real-browser')
+
+puppeteerRealBrowser.real({
+    proxy: {
+        host: '<proxy-host>',
+        port: '<proxy-port>',
+    }
+})
+.then(async response => {
+    var browser = response.browser
+    var page = response.page
+    await page.goto('https://auth0.openai.com/u/email-verification')
+})
+```
+Use with a proxy with auth information:
+
+```js
+const puppeteerRealBrowser = require('puppeteer-real-browser')
+
+puppeteerRealBrowser.real({
+    proxy: {
+        host: '<proxy-host>',
+        port: '<proxy-port>',
+        username: '<proxy-username>',
+        password: '<proxy-password>'
+    }
+})
+.then(async response => {
+    var browser = response.browser
+    var page = response.page
+    await page.goto('https://auth0.openai.com/u/email-verification')
+})
+```
+
+The function returns you browser and page. Browser and page are created with puppeteer. You can run them with puppeteer functions.
