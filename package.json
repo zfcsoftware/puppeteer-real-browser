@@ -1,0 +1,23 @@
+{
+  "name": "cf-bypass",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "chrome-launcher": "^1.1.0",
+    "chrome-remote-interface": "^0.33.0",
+    "chromium": "^3.0.3",
+    "puppeteer": "^21.6.1",
+    "puppeteer-core": "^21.6.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
