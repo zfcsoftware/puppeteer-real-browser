@@ -18,7 +18,7 @@ npm i puppeteer-real-browser
 Use without proxy:
 
 ```js
-const puppeteerRealBrowser = require('puppeteer-real-browser')
+import puppeteerRealBrowser from 'puppeteer-real-browser'
 
 puppeteerRealBrowser.real({})
     .then(async response => {
@@ -31,7 +31,7 @@ puppeteerRealBrowser.real({})
 Use with a proxy without auth information:
 
 ```js
-const puppeteerRealBrowser = require('puppeteer-real-browser')
+import puppeteerRealBrowser from 'puppeteer-real-browser'
 
 puppeteerRealBrowser.real({
     proxy: {
@@ -48,7 +48,7 @@ puppeteerRealBrowser.real({
 Use with a proxy with auth information:
 
 ```js
-const puppeteerRealBrowser = require('puppeteer-real-browser')
+import puppeteerRealBrowser from 'puppeteer-real-browser'
 
 puppeteerRealBrowser.real({
     proxy: {
