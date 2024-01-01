@@ -3,7 +3,6 @@ import chromium from 'chromium';
 import CDP from 'chrome-remote-interface';
 import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
 export const puppeteerRealBrowser = ({ proxy = {} }) => {
     return new Promise(async (resolve, reject) => {
@@ -33,13 +32,10 @@ export const puppeteerRealBrowser = ({ proxy = {} }) => {
                     throw new Error(err.message)
                 })
 
-            puppeteer.use(StealthPlugin())
 
             const browser = await puppeteer.connect({
                 targetFilter: (target) => !!target.url(),
                 browserWSEndpoint: data,
-                ignoreHTTPSErrors: true,
-                args: ['--start-maximized', "--window-size=1920,1040"]
             });
             browser.close = async () => {
                 if (cdpSession) {
