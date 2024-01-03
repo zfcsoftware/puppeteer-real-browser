@@ -3,15 +3,39 @@ import chromium from 'chromium';
 import CDP from 'chrome-remote-interface';
 import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
+import Xvfb from 'xvfb';
 
-export const puppeteerRealBrowser = ({ proxy = {} }) => {
+
+export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless = false, executablePath = 'default' }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let chromePath = chromium.path;
+            var xvfbsession = null
+            var chromePath = chromium.path;
+
+            if (executablePath !== 'default') {
+                chromePath = executablePath
+            }
+
             const chromeFlags = ['--no-sandbox'];
+
+            if (headless === true && process.platform !== 'linux') {
+                chromeFlags.push('--headless')
+            }
+
             if (proxy && proxy.host && proxy.host.length > 0) {
                 chromeFlags.push(`--proxy-server=${proxy.host}:${proxy.port}`);
             }
+
+            if (process.platform === 'linux' && headless !== false) {
+                try {
+                    var xvfbsession = new Xvfb({
+                        silent: false,
+                        xvfb_args: ['-screen', '0', '1280x720x24', '-ac']
+                    });
+                    xvfbsession.startSync();
+                } catch (err) { }
+            }
+
             var chrome = await launch({
                 chromePath,
                 chromeFlags
@@ -26,16 +50,29 @@ export const puppeteerRealBrowser = ({ proxy = {} }) => {
             await Page.setLifecycleEventsEnabled({ enabled: true });
 
             var data = await axios.get('http://127.0.0.1:' + chrome.port + '/json/version').then(response => {
-                return response.data.webSocketDebuggerUrl
+                response = response.data
+                return {
+                    browserWSEndpoint: response.webSocketDebuggerUrl,
+                    agent: response['User-Agent']
+                }
             })
                 .catch(err => {
                     throw new Error(err.message)
                 })
 
 
+            if (action !== 'default') {
+                var smallResponse = {
+                    userAgent: data.agent,
+                    browserWSEndpoint: data.browserWSEndpoint
+                }
+                resolve(smallResponse)
+                return smallResponse
+            }
+
             const browser = await puppeteer.connect({
                 targetFilter: (target) => !!target.url(),
-                browserWSEndpoint: data,
+                browserWSEndpoint: data.browserWSEndpoint,
             });
             browser.close = async () => {
                 if (cdpSession) {
@@ -44,13 +81,22 @@ export const puppeteerRealBrowser = ({ proxy = {} }) => {
                 if (chrome) {
                     await chrome.kill();
                 }
+
+                if (xvfbsession && xvfbsession !== null) {
+                    try {
+                        xvfbsession.stopSync();
+                        xvfbsession = null;
+                    } catch (err) { }
+                }
+
             }
+
             const pages = await browser.pages();
             const page = pages[0];
             if (proxy && proxy.username && proxy.username.length > 0) {
                 await page.authenticate({ username: proxy.username, password: proxy.password });
             }
-            await page.setUserAgent(data['User-Agent']);
+            await page.setUserAgent(data.agent);
             await page.setViewport({
                 width: 1920,
                 height: 1080,
@@ -60,6 +106,7 @@ export const puppeteerRealBrowser = ({ proxy = {} }) => {
                 page: page
             })
         } catch (err) {
+            console.log(err);
             throw new Error(err.message)
         }
     })

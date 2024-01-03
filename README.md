@@ -13,17 +13,23 @@ https://github.com/zfcsoftware/youtube_lessons_resources/blob/main/puppeteer_clo
 ```bash
 npm i puppeteer-real-browser
 ```
+
+If it will run on linux you will also need to install xvfb.
+
+
+```bash
+sudo apt-get install xvfb
+```
+
 ## Include
 
 ### commanjs
 
 ```js
-        const start = async () => {
-            var puppeteerRealBrowser = await import('puppeteer-real-browser')
-            puppeteerRealBrowser = await puppeteerRealBrowser.puppeteerRealBrowser({})
-            var browser = puppeteerRealBrowser.browser
-            var page = puppeteerRealBrowser.page
-        }
+const start = async () => {
+    var { puppeteerRealBrowser } = await import('puppeteer-real-browser')
+    const { page, browser } = await puppeteerRealBrowser({})
+}
 ```
 ### Module
 
@@ -33,39 +39,28 @@ import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 
 ## Usage
 
-Use without proxy:
+This package has 2 types of use. The first one opens the browser and connects with puppeteer. In this usage you cannot install chrome plugin or set puppeteer launch settings. If you don't need these, the first use is the best and lightest. Use 2 runs chromium. Then it opens a new browser with puppeteer.launch and connects to chromium. In total you have 2 browsers open. But you can use the same commands as with puppeteer.launch. Use 2 consumes more resources.
+
+### Default Usage
 
 ```js
-import {puppeteerRealBrowser} from 'puppeteer-real-browser'
-
-puppeteerRealBrowser({})
-    .then(async response => {
-        var browser = response.browser
-        var page = response.page
-        await page.goto('https://auth0.openai.com/u/email-verification')
-    })
-```
-
-Use with a proxy without auth information:
-
-```js
-import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 
 puppeteerRealBrowser({
-    proxy: {
-        host: '<proxy-host>',
-        port: '<proxy-port>',
-    }
-})
-.then(async response => {
-    var browser = response.browser
-    var page = response.page
-    await page.goto('https://auth0.openai.com/u/email-verification')
-})
-```
-Use with a proxy with auth information:
+    headless: false, // (optional) The default is false. If true is sent, the browser opens incognito. If false is sent, the browser opens visible.
 
-```js
+    action:'default', // (optional) If default, it connects with puppeteer by opening the browser and returns you the page and browser. if socket is sent, it returns you the browser url to connect to. 
+
+    executablePath:'default', // (optional) If you want to use a different browser instead of Chromium, you can pass the browser path with this variable.
+    // (optional) If you are using a proxy, you can send it as follows.
+    // proxy:{
+    //     host:'<proxy-host>',
+    //     port:'<proxy-port>',
+    //     username:'<proxy-username>',
+    //     password:'<proxy-password>'
+    // }
+
+})
+
 import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 
 puppeteerRealBrowser({
@@ -82,6 +77,19 @@ puppeteerRealBrowser({
     await page.goto('https://auth0.openai.com/u/email-verification')
 })
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 The function returns you browser and page. Browser and page are created with puppeteer. You can run them with puppeteer functions.
 

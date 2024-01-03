@@ -23,7 +23,8 @@
     "chromium": "^3.0.3",
     "puppeteer": "^21.6.1",
     "puppeteer-core": "^21.6.1",
-    "puppeteer-extra": "^3.3.6"
+    "puppeteer-extra": "^3.3.6",
+    "xvfb": "^0.4.0"
   },
   "repository": {
     "type": "git",
