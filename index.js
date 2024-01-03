@@ -26,7 +26,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                 chromeFlags.push(`--proxy-server=${proxy.host}:${proxy.port}`);
             }
 
-            if (process.platform === 'linux' && headless !== false) {
+            if (process.platform === 'linux') {
                 try {
                     var xvfbsession = new Xvfb({
                         silent: true,
