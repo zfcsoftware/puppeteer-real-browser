@@ -106,12 +106,13 @@ puppeteerRealBrowser({
 
 })
 .then(async response => {
-    const { browserWSEndpoint, userAgent, closeSession } = response
+    const { browserWSEndpoint, userAgent, closeSession, chromePath } = response
     
     const browser = await puppeteer.launch({
         targetFilter: (target) => !!target.url(),
         browserWSEndpoint: browserWSEndpoint,
-        headless:false
+        headless:false,
+        executablePath: chromePath
         // ... puppeteer args
     });
     const page = await browser.newPage()

@@ -86,7 +86,8 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                 var smallResponse = {
                     userAgent: data.agent,
                     browserWSEndpoint: data.browserWSEndpoint,
-                    closeSession: closeSession
+                    closeSession: closeSession,
+                    chromePath:chromePath
                 }
                 resolve(smallResponse)
                 return smallResponse
