@@ -62,9 +62,29 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
 
 
             if (action !== 'default') {
+                const closeSession = async () => {
+                    try {
+                        if (cdpSession) {
+                            await cdpSession.close();
+                        }
+                        if (chrome) {
+                            await chrome.kill();
+                        }
+
+                        if (xvfbsession && xvfbsession !== null) {
+                            try {
+                                xvfbsession.stopSync();
+                                xvfbsession = null;
+                            } catch (err) { }
+                        }
+                    } catch (err) { }
+                    return true
+                }
+
                 var smallResponse = {
                     userAgent: data.agent,
-                    browserWSEndpoint: data.browserWSEndpoint
+                    browserWSEndpoint: data.browserWSEndpoint,
+                    closeSession: closeSession
                 }
                 resolve(smallResponse)
                 return smallResponse
