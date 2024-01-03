@@ -29,11 +29,13 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             if (process.platform === 'linux' && headless !== false) {
                 try {
                     var xvfbsession = new Xvfb({
-                        silent: false,
+                        silent: true,
                         xvfb_args: ['-screen', '0', '1280x720x24', '-ac']
                     });
                     xvfbsession.startSync();
-                } catch (err) { }
+                } catch (err) {
+                    console.log(err.message);
+                }
             }
 
             var chrome = await launch({

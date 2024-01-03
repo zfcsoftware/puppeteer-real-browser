@@ -35,6 +35,9 @@ const start = async () => {
 
 ```js
 import {puppeteerRealBrowser} from 'puppeteer-real-browser'
+
+const { page, browser } = await puppeteerRealBrowser({})
+
 ```
 
 ## Usage
@@ -121,17 +124,6 @@ puppeteerRealBrowser({
 })
 
 ```
-
-
-
-
-
-
-
-
-
-
-The function returns you browser and page. Browser and page are created with puppeteer. You can run them with puppeteer functions.
 
 # Disclaimer of Liability
 This library was created to understand how scanners like puppeteer are detected and to teach how to prevent detection. Its purpose is purely educational. Illegal use of the library is prohibited. The user is responsible for any problems that may arise. The repo owner accepts no responsibility.
