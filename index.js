@@ -4,6 +4,8 @@ import CDP from 'chrome-remote-interface';
 import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
 import Xvfb from 'xvfb';
+import clc from 'cli-color'
+
 
 
 export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless = false, executablePath = 'default' }) => {
@@ -11,6 +13,12 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
         try {
             var xvfbsession = null
             var chromePath = chromium.path;
+
+            if (process.platform === 'linux' && headless === false) {
+                console.log(clc.yellow('[WARNING] [PUPPETEER-REAL-BROWSER] | On the Linux platform you can only run the browser in headless true mode.'));
+                headless = true
+            }
+
 
             if (executablePath !== 'default') {
                 chromePath = executablePath
@@ -34,8 +42,16 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                     });
                     xvfbsession.startSync();
                 } catch (err) {
+                    console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb'));
                     console.log(err.message);
                 }
+
+                if (action === 'socket') {
+                    console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.'));
+                    throw new Error('Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.')
+                    return false
+                }
+
             }
 
             var chrome = await launch({
@@ -87,7 +103,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                     userAgent: data.agent,
                     browserWSEndpoint: data.browserWSEndpoint,
                     closeSession: closeSession,
-                    chromePath:chromePath
+                    chromePath: chromePath
                 }
                 resolve(smallResponse)
                 return smallResponse

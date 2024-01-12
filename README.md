@@ -1,8 +1,9 @@
 # puppeteer-real-browser
 This package prevents Puppeteer from being detected as a bot in services like Cloudflare and allows you to pass captchas without any problems. It behaves like a real browser.
 ## Warnings
-1) The fingerprints of the browsers created with this package are the same.
-https://fingerprint.com/demo/
+1) If you want to change the fingerprint values of the browser, please check this library: https://github.com/pavlealeksic/puppeteer-afp
+You can check whether it has changed or not from this link https://fingerprint.com/demo/.
+
 You can check with services like. If you are using it for a service that checks fingerprints, you can get caught.
 2) It serves on a port on localhost to act like a real browser. The port must be closed when the process is finished. To close it, simply call browser.close(). In this method, operations to close the port are performed.
 3) If you want the cloudflare Captcha to be skipped automatically, you can use this code.
@@ -49,6 +50,9 @@ This package has 2 types of use. The first one opens the browser and connects wi
 ```js
 import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 
+// You should use it if you want the fingerprint values of the page to be changed.
+// import puppeteerAfp from 'puppeteer-afp'
+
 puppeteerRealBrowser({
     headless: false, // (optional) The default is false. If true is sent, the browser opens incognito. If false is sent, the browser opens visible.
 
@@ -68,6 +72,10 @@ puppeteerRealBrowser({
 })
 .then(async response => {
     const {browser, page} = response
+
+    // You should use it if you want the fingerprint values of the page to be changed.
+    // puppeteerAfp(page);
+
     await page.goto('<url>')
 })
 .catch(error=>{
@@ -83,10 +91,15 @@ puppeteerRealBrowser({
 
 This opens a hidden chromium. Puppeteer will return a socket url for you to connect to this chromium. With this url you can use puppeteer to open a new browser and use it. Example is given below. Both methods create the same quality browser. Method 2 consumes more resources but is manageable.
 
+[WARNING] This method only works on Windows Platform. There is no solution for Linux platform yet. 
+
 
 ```js
 import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 import puppeteer from 'puppeteer-extra';
+
+// You should use it if you want the fingerprint values of the page to be changed.
+// import puppeteerAfp from 'puppeteer-afp'
 
 puppeteerRealBrowser({
     headless: true, // (optional) The default is false. If true is sent, the browser opens incognito. If false is sent, the browser opens visible.
@@ -107,15 +120,22 @@ puppeteerRealBrowser({
 })
 .then(async response => {
     const { browserWSEndpoint, userAgent, closeSession, chromePath } = response
-    
+
     const browser = await puppeteer.launch({
         targetFilter: (target) => !!target.url(),
         browserWSEndpoint: browserWSEndpoint,
-        headless:false,
-        executablePath: chromePath
+        ignoreHTTPSErrors: true,
+        headless: false,
+        args: ['--start-maximized', "--window-size=1920,1040"],
         // ... puppeteer args
     });
-    const page = await browser.newPage()
+
+    const pages = await browser.pages();
+    const page = pages[0];
+
+    // You should use it if you want the fingerprint values of the page to be changed.
+    // puppeteerAfp(page);
+    
     await page.goto('<url>')
     await closeSession()
     await browser.close()
@@ -128,3 +148,7 @@ puppeteerRealBrowser({
 
 # Disclaimer of Liability
 This library was created to understand how scanners like puppeteer are detected and to teach how to prevent detection. Its purpose is purely educational. Illegal use of the library is prohibited. The user is responsible for any problems that may arise. The repo owner accepts no responsibility.
+
+# Thank You
+[@JimmyLaurent](https://github.com/JimmyLaurent)
+Inspired by his cloudflare-scraper library. 

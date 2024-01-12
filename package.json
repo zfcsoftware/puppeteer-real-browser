@@ -21,8 +21,9 @@
     "chrome-launcher": "^1.1.0",
     "chrome-remote-interface": "^0.33.0",
     "chromium": "^3.0.3",
+    "cli-color": "^2.0.3",
     "puppeteer": "^21.6.1",
-    "puppeteer-core": "^21.6.1",
+    "puppeteer-core": "^21.7.0",
     "puppeteer-extra": "^3.3.6",
     "xvfb": "^0.4.0"
   },
