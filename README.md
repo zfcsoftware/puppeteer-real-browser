@@ -4,8 +4,6 @@ This package prevents Puppeteer from being detected as a bot in services like Cl
 1) If you want to change the fingerprint values of the browser, please check this library: https://github.com/pavlealeksic/puppeteer-afp
 You can check whether it has changed or not from this link https://fingerprint.com/demo/.
 
-You can check with services like. If you are using it for a service that checks fingerprints, you can get caught.
-
 2) It serves on a port on localhost to act like a real browser. The port must be closed when the process is finished. To close it, simply call browser.close(). In this method, operations to close the port are performed.
 
 3) If you want the cloudflare Captcha to be skipped automatically, you can use this code. [CODE](https://github.com/zfcsoftware/youtube_lessons_resources/blob/main/puppeteer_cloudflare_bypass/index.js)
