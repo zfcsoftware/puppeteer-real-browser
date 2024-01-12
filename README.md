@@ -89,17 +89,17 @@ puppeteerRealBrowser({
 
 ### Manageable Usage
 
-This opens a hidden chromium. Puppeteer will return a socket url for you to connect to this chromium. With this url you can use puppeteer to open a new browser and use it. Example is given below. Both methods create the same quality browser. Method 2 consumes more resources but is manageable.
+This method is not recommended. Open a hidden chromium and connect to it with puppeteer. It consumes more resources. You can use it when you need to do things like installing a Chrome extension. You should use it by default unless you have to.
 
-[WARNING] This method only works on Windows Platform. There is no solution for Linux platform yet. 
-
+```bash
+npm i puppeteer-real-browser puppeteer-extra-plugin-stealth
+```
 
 ```js
 import {puppeteerRealBrowser} from 'puppeteer-real-browser'
 import puppeteer from 'puppeteer-extra';
-
-// You should use it if you want the fingerprint values of the page to be changed.
-// import puppeteerAfp from 'puppeteer-afp'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+puppeteer.use(StealthPlugin())
 
 puppeteerRealBrowser({
     headless: true, // (optional) The default is false. If true is sent, the browser opens incognito. If false is sent, the browser opens visible.
@@ -145,12 +145,9 @@ puppeteerRealBrowser({
     // You can use it if you need to log in to a proxy.
     // await page.authenticate({ username: proxy.username, password: proxy.password });
     
-    // You should use it if you want the fingerprint values of the page to be changed.
-    // puppeteerAfp(page);
-    
     await page.goto('<url>')
-    await closeSession()
-    await browser.close()
+    // await closeSession()
+    // await browser.close()
 })
 .catch(error=>{
     console.log(error.message)

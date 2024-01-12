@@ -46,11 +46,11 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                     console.log(err.message);
                 }
 
-                if (action === 'socket') {
-                    console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.'));
-                    throw new Error('Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.')
-                    return false
-                }
+                // if (action === 'socket') {
+                //     console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.'));
+                //     throw new Error('Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.')
+                //     return false
+                // }
 
             }
 
