@@ -141,6 +141,10 @@ puppeteerRealBrowser({
         width: 1920,
         height: 1080,
     });
+    
+    // You can use it if you need to log in to a proxy.
+    // await page.authenticate({ username: proxy.username, password: proxy.password });
+    
     // You should use it if you want the fingerprint values of the page to be changed.
     // puppeteerAfp(page);
     
