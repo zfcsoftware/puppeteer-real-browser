@@ -132,7 +132,15 @@ puppeteerRealBrowser({
 
     const pages = await browser.pages();
     const page = pages[0];
+    // When the user agent value is not undefined, the waf keeps looping. If the first agent doesn't work for what you are trying to do, use the 2nd one
+    
+    // await page.setUserAgent(userAgent);
+    await page.setUserAgent(undefined);
 
+    await page.setViewport({
+        width: 1920,
+        height: 1080,
+    });
     // You should use it if you want the fingerprint values of the page to be changed.
     // puppeteerAfp(page);
     
