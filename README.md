@@ -126,16 +126,17 @@ puppeteerRealBrowser({
         browserWSEndpoint: browserWSEndpoint,
         ignoreHTTPSErrors: true,
         headless: false,
-        args: ['--start-maximized', "--window-size=1920,1040"],
+        args: ['--no-sandbox', '--start-maximized', "--window-size=1920,1040"],
         // ... puppeteer args
     });
 
     const pages = await browser.pages();
     const page = pages[0];
-    // When the user agent value is not undefined, the waf keeps looping. If the first agent doesn't work for what you are trying to do, use the 2nd one
+
+    // If you cannot pass waf in this way, you can try the following user agents respectively.
     
     // await page.setUserAgent(userAgent);
-    await page.setUserAgent(undefined);
+    // await page.setUserAgent(undefined);
 
     await page.setViewport({
         width: 1920,
