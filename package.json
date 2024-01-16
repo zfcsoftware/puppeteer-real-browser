@@ -20,7 +20,7 @@
     "axios": "^1.6.2",
     "chrome-launcher": "^1.1.0",
     "chrome-remote-interface": "^0.33.0",
-    "chromium": "^3.0.3",
+    "@sparticuz/chromium": "^119.0.2",
     "cli-color": "^2.0.3",
     "puppeteer": "^21.6.1",
     "puppeteer-core": "^21.7.0",
