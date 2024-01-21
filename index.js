@@ -59,7 +59,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             await Page.enable();
             await Page.setLifecycleEventsEnabled({ enabled: true });
 
-            var data = await axios.get('http://127.0.0.1:' + chrome.port + '/json/version').then(response => {
+            var data = await axios.get('http://localhost:' + chrome.port + '/json/version').then(response => {
                 response = response.data
                 return {
                     browserWSEndpoint: response.webSocketDebuggerUrl,

@@ -8,7 +8,7 @@ You can check whether it has changed or not from this link https://fingerprint.c
 
 3) If you want the cloudflare Captcha to be skipped automatically, you can use this code. [CODE](https://github.com/zfcsoftware/youtube_lessons_resources/blob/main/puppeteer_cloudflare_bypass/index.js)
 
-
+4) This library is stable when using headless false in windows and headless true in linux.
 
 ## installation
 
