@@ -1,5 +1,5 @@
 import { launch } from 'chrome-launcher';
-import chromium from 'chromium';
+import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
 import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
@@ -19,7 +19,6 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                 headless = true
             }
 
-
             if (executablePath !== 'default') {
                 chromePath = executablePath
             }
@@ -27,7 +26,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             const chromeFlags = ['--no-sandbox'];
 
             if (headless === true && process.platform !== 'linux') {
-                chromeFlags.push('--headless')
+                chromeFlags.push('--headless=new')
             }
 
             if (proxy && proxy.host && proxy.host.length > 0) {
@@ -45,13 +44,6 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                     console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb'));
                     console.log(err.message);
                 }
-
-                // if (action === 'socket') {
-                //     console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.'));
-                //     throw new Error('Manageable Usage is only available on windows platform. On Linux platform it should be used with the default usage.')
-                //     return false
-                // }
-
             }
 
             var chrome = await launch({
@@ -129,7 +121,6 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                 }
 
             }
-
             const pages = await browser.pages();
             const page = pages[0];
             if (proxy && proxy.username && proxy.username.length > 0) {
