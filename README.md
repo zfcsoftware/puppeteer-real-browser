@@ -69,9 +69,9 @@ connect({
 
     headless: 'auto',
 
-    args: []
+    args: [],
 
-    customConfig: {}
+    customConfig: {},
 
     skipTarget: [],
 
@@ -79,7 +79,7 @@ connect({
 
     turnstile: true,
 
-    connectOption: {}
+    connectOption: {},
 
     // proxy:{
     //     host:'<proxy-host>',
