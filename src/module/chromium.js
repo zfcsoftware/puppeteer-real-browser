@@ -47,7 +47,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 headless = slugify(process.platform).includes('linux') ? true : false
             }
 
-            const chromeFlags = ['--no-sandbox', , '--disable-setuid-sandbox','--disable-blink-features=AutomationControlled'].concat(args);
+            const chromeFlags = ['--no-sandbox','--disable-setuid-sandbox','--disable-blink-features=AutomationControlled'].concat(args);
 
             if (headless === true) {
                 slugify(process.platform).includes('win') ? chromeFlags.push('--headless=new') : ''
