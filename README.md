@@ -44,8 +44,8 @@ sudo apt-get install xvfb
 ```js
 
 const start = async () => {
-    var { puppeteerRealBrowser } = await import('puppeteer-real-browser')
-    const { page, browser } = await puppeteerRealBrowser({})
+    var { connect } = await import('puppeteer-real-browser')
+    const { page, browser } = await connect({})
 }
 
 ```
@@ -53,9 +53,9 @@ const start = async () => {
 
 ```js
 
-import {puppeteerRealBrowser} from 'puppeteer-real-browser'
+import { connect } from 'puppeteer-real-browser'
 
-const { page, browser } = await puppeteerRealBrowser({})
+const { page, browser } = await connect({})
 
 ```
 
@@ -125,3 +125,13 @@ Distributed under the MIT License. See [LICENSE](https://github.com/zfcsoftware/
 * **Jimmy Laurent** - [Jimmy Laurent](https://github.com/JimmyLaurent) - *inspired by cloudflare-scraper library*
 * **CrispyyBaconx** - [CrispyyBaconx](https://github.com/CrispyyBaconx) - *Contributed to converting this library to Typescript*
 * **Pavle Aleksic** - [pavlealeksic](https://github.com/pavlealeksic) - *We change the fingerprint with the puppeteer-afp library.*
+
+## Disclaimer of Liability
+
+No responsibility is accepted for the use of this software. This software is intended for educational and informational purposes only. Users should use this software at their own risk. The developer cannot be held liable for any damages that may result from the use of this software.
+
+This software is not intended to bypass Cloudflare Captcha or any other security measure. It must not be used for malicious purposes. Malicious use may result in legal consequences.
+
+This software is not officially endorsed or guaranteed. Users can visit the GitHub page to report bugs or contribute to the software, but they are not entitled to make any claims or request service fixes.
+
+By using this software, you agree to this disclaimer.
