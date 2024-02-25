@@ -1,9 +1,9 @@
 {
   "name": "puppeteer-real-browser",
-  "version": "1.1.7",
+  "version": "1.2.0",
   "description": "This package is designed to bypass puppeteer's bot-detecting captchas such as Cloudflare. It acts like a real browser and can be managed with puppeteer.",
   "type": "module",
-  "exports": "./index.js",
+  "exports": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,17 +12,30 @@
     "cloudflare-bypass",
     "puppeteer-fingerprint",
     "puppeteer-cloudflare",
-    "puppeteer-real-browser"
+    "puppeteer-real-browser",
+    "undetectable-puppeteer",
+    "undetect",
+    "undetectable",
+    "puppeteer-undetectable",
+    "puppeteer-undetect",
+    "puppeteer-undetectable-bypass",
+    "puppeteer-undetect-bypass",
+    "puppeteer-undetectable-cloudflare",
+    "puppeteer-undetect-cloudflare",
+    "puppeteer-undetectable-cf",
+    "puppeteer-undetect-cf",
+    "puppeteer-undetectable-cf-bypass"
   ],
   "author": "zfc-software",
   "license": "ISC",
   "dependencies": {
     "@sparticuz/chromium": "^119.0.2",
-    "axios": "^1.6.2",
+    "axios": "^1.6.7",
     "chrome-launcher": "^1.1.0",
     "chrome-remote-interface": "^0.33.0",
     "cli-color": "^2.0.3",
-    "puppeteer": "^21.6.1",
+    "puppeteer": "^21.11.0",
+    "puppeteer-afp": "^1.0.5",
     "puppeteer-extra": "^3.3.6",
     "xvfb": "^0.4.0"
   },

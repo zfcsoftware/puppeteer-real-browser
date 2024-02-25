@@ -80,7 +80,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                         if (chrome) {
                             await chrome.kill();
                         }
-
+                        
                         if (xvfbsession && xvfbsession !== null) {
                             try {
                                 xvfbsession.stopSync();
