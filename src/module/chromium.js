@@ -1,7 +1,7 @@
 import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
-import axios from 'axios'
+import { request } from 'undici'
 import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
 
@@ -87,12 +87,12 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 DOM.enable()
             ]);
 
-            var chromeSession = await axios.get('http://localhost:' + chrome.port + '/json/version')
-                .then(response => {
-                    response = response.data
+            var chromeSession = await request('http://localhost:' + chrome.port + '/json/version')
+                .then(async response => {
+                    const responseData = await response.body.json()
                     return {
-                        browserWSEndpoint: response.webSocketDebuggerUrl,
-                        agent: response['User-Agent']
+                        browserWSEndpoint: responseData.webSocketDebuggerUrl,
+                        agent: responseData['User-Agent']
                     }
                 })
                 .catch(err => {
