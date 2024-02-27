@@ -248,23 +248,6 @@ export function fp (page) {
       // Web RTC
       navigator.mediaDevices.getUserMedia = navigator.webkitGetUserMedia = navigator.mozGetUserMedia = navigator.getUserMedia = webkitRTCPeerConnection = RTCPeerConnection = MediaStreamTrack = undefined;
   
-      // update the plugins
-  
-  
-  
-      if (window.performance) 
-        window.performance.memory = {
-          jsHeapSizeLimit: Math.floor(Math.random() * 1000000000) + 900000000,
-          totalJSHeapSize: Math.floor(Math.random() * 800000000) + 100000000,
-          usedJSHeapSize: Math.floor(Math.random() * 700000000) + 100000000,
-        };
-      
-      Object.defineProperty(navigator, 'deviceMemory', {get: () => Math.floor(Math.random() * 8) + 4, });
-  
-  
-    //   Object.defineProperty(navigator, 'userAgent', {get: () => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'});
-  
-  
       const getParameter = WebGLRenderingContext.prototype.getParameter;
       WebGLRenderingContext.prototype.getParameter = function (parameter) {
         // UNMASKED_VENDOR_WEBGL
@@ -279,13 +262,6 @@ export function fp (page) {
         return getParameter.call(this, parameter);
       };
       
-      // @ts-ignore
-      window.chrome = {runtime: {}, };
-  
-      window.navigator.chrome = {
-        runtime: {},
-        // etc.
-      };
       const newProto = navigator.__proto__;
       delete newProto.webdriver;
       navigator.__proto__ = newProto;
