@@ -1,12 +1,20 @@
 import { startSession, closeSession } from './module/chromium.js'
 import puppeteer from 'puppeteer-extra';
 import { notice, slugify } from './module/general.js'
-import { autoSolve } from './module/turnstile.js'
+import { autoSolve, setSolveStatus } from './module/turnstile.js'
 import { fp } from './module/afp.js';
 import { puppeteerRealBrowser } from './module/old.js'
 export { puppeteerRealBrowser };
 
+var global_target_status = true
+
 function targetFilter({ target, skipTarget }) {
+
+    if (global_target_status === false) {
+        return true
+    }
+
+
     var response = !!target.url()
     if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
         response = true
@@ -29,8 +37,15 @@ async function handleNewPage(page) {
 }
 
 
-export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy = {}, skipTarget = [], fingerprint = true, turnstile = false, connectOption = {} }) => {
+const setTarget = ({ status = true }) => {
+    global_target_status = status
+}
+
+
+export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy = {}, skipTarget = [], fingerprint = true, turnstile = false, connectOption = {}, tf = true }) => {
     return new Promise(async (resolve, reject) => {
+
+        global_target_status = tf
 
         const { chromeSession, cdpSession, chrome, xvfbsession } = await startSession({
             args: args,
@@ -72,6 +87,7 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
                 message: 'Browser Disconnected',
                 type: 'info'
             })
+            setSolveStatus({ status: false })
             await closeSession({
                 xvfbsession: xvfbsession,
                 cdpSession: cdpSession,
@@ -80,15 +96,35 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
         });
 
 
-        // browser.on('targetcreated', async target => {
-        //     const newPage = await target.page();
-        //     if (newPage && fingerprint === true) {
-        //         newPage = handleNewPage(newPage);
-        //     }
-        //     if (turnstile === true) {
-        //         autoSolve({ page: newPage })
-        //     }
-        // });
+        browser.on('targetcreated', async target => {
+            var newPage = await target.page();
+
+            try {
+                await newPage.setUserAgent(chromeSession.agent);
+            } catch (err) {
+                // console.log(err.message);
+            }
+
+            try {
+                await newPage.setViewport({
+                    width: 1920,
+                    height: 1080
+                });
+            } catch (err) {
+                // console.log(err.message);
+            }
+
+
+            if (newPage && fingerprint === true) {
+                try {
+                    handleNewPage(newPage);
+                } catch (err) { }
+            }
+
+            if (turnstile === true) {
+                autoSolve({ page: newPage })
+            }
+        });
 
 
         resolve({
@@ -96,7 +132,8 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
             page: page,
             xvfbsession: xvfbsession,
             cdpSession: cdpSession,
-            chrome: chrome
+            chrome: chrome,
+            setTarget: setTarget
         })
     })
 }

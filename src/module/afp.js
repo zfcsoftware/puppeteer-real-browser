@@ -290,6 +290,8 @@ export function fp (page) {
       delete newProto.webdriver;
       navigator.__proto__ = newProto;
   
-    });
+    }).catch(err=>{
+      
+    })
     return page;
   };

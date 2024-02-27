@@ -36,13 +36,19 @@ const checkStat = ({ page }) => {
 }
 
 
+var solve_status = true
 
+export const setSolveStatus = ({ status }) => {
+    solve_status = status
+}
 
 export const autoSolve = ({ page, browser }) => {
     return new Promise(async (resolve, reject) => {
-        while (!page.isClosed() && browser.isConnected() === true) {
-            await sleep(1000)
-            await checkStat({ page: page }).catch(err => { })
+        while (solve_status) {
+            try {
+                await sleep(1000)
+                await checkStat({ page: page }).catch(err => { })
+            } catch (err) { }
         }
         resolve()
     })
