@@ -146,6 +146,27 @@ connect({
 
 ```
 
+
+## Docker
+
+You can use the Dockerfile file in the main directory to use this library with docker. It has been tested with docker on Ubuntu server operating systems.
+
+To run a test, you can follow these steps
+
+
+```bash
+docker build -t puppeteer-real-browser-project .
+```
+
+
+```bash
+docker run -p 8080:3000 puppeteer-real-browser-project
+```
+
+## Support Us
+
+This library is completely open source and is constantly being updated. Please star this repo to keep these updates coming. Starring the repo will support us to improve it.
+
 ## License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/zfcsoftware/puppeteer-real-browser/blob/main/LICENSE.md) for more information.
