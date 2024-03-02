@@ -155,6 +155,14 @@ To run a test, you can follow these steps
 
 
 ```bash
+git clone https://github.com/zfcsoftware/puppeteer-real-browser
+```
+
+```bash
+cd puppeteer-real-browser
+```
+
+```bash
 docker build -t puppeteer-real-browser-project .
 ```
 
