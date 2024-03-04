@@ -39,7 +39,7 @@ sudo apt-get install xvfb
 
 ## Include
 
-### Commanjs
+### CommonJS
 
 ```js
 
