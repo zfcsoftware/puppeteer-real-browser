@@ -5,24 +5,35 @@ const checkStat = ({ page }) => {
             resolve(false)
         }, 3000);
         try {
-            const frames = await page.frames();
-            let cloudflareFrameExists = frames.find(item => item.url().indexOf('cloudflare') > -1)
-            if (cloudflareFrameExists) {
-                notice({
-                    message: 'Cloudflare Turnstile Detected',
-                    type: 'info'
-                })
-            } else {
-                return resolve(false)
-            }
+            var domain = '';
 
             try {
-                var frame = page.frames()[0]
-                await page.click('iframe')
-                frame = frame.childFrames()[0]
-                if (frame) {
-                    await frame.hover('[type="checkbox"]').catch(err => { })
-                    await frame.click('[type="checkbox"]').catch(err => { })
+                const pageURL = await page.url();
+                const url = new URL(pageURL);
+                domain = url.hostname;
+            } catch (err) { }
+
+            const frames = await page.frames().filter(frame => {
+                return frame.url().includes('cloudflare') || frame.url().includes(domain)
+            });
+
+            if (frames.length <= 0) {
+                return resolve(false)
+            }
+            const elements = await page.$$('iframe');
+            for (const element of elements) {
+                await element.click();
+            }
+            try {
+                for (var item of frames) {
+                    try {
+                        await item.click('body').catch(err => { })
+                        var active_frame = item.childFrames()[0]
+                        await active_frame.click('[type="checkbox"]').catch(err => { })
+                    } catch (err) {
+                        // console.log(err);
+                    }
+
                 }
             } catch (err) { }
 

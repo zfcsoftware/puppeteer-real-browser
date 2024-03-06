@@ -11,6 +11,9 @@ const { page, browser } = await connect({
     connectOption: {},
     tf: true,
 })
+setInterval(() => {
+    page.screenshot({ path: 'example.png' });
+}, 500);
 console.log('Connected to browser');
 page.goto('https://nopecha.com/demo/cloudflare', {
     waitUntil: 'domcontentloaded'

@@ -39,7 +39,7 @@ sudo apt-get install xvfb
 
 ## Include
 
-### Commanjs
+### CommanJS
 
 ```js
 
@@ -104,7 +104,7 @@ connect({
 
 **headless**: auto can take the values true and false. If auto is set, it uses the option that is stable on the operating system in use.
 
-**args:** Chromium başlatılırken eklemek istediğiniz ek bir flag varsa bu diziyle gönderebilirsiniz.
+**args:** If there is an additional flag you want to add when starting Chromium, you can send it with this string.
 
 **customConfig:** When launch is executed, the variables you send in be onje are added. For example, you can specify the browser path with executablePath.
 
