@@ -13,20 +13,10 @@ function targetFilter({ target, skipTarget }) {
     if (global_target_status === false) {
         return true
     }
-
-
     var response = !!target.url()
     if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
         response = true
     }
-    // console.log(target.type());
-    // if (target.url().length == 0) {
-    //     response = true
-    // }
-
-    // if (target.type() == 'page') {
-    //     response = true
-    // }
     return response;
 }
 
@@ -125,7 +115,6 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
                 autoSolve({ page: newPage })
             }
         });
-
 
         resolve({
             browser: browser,
