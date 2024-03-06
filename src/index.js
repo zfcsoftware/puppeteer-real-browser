@@ -62,6 +62,7 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
             handleNewPage(page);
         }
         if (turnstile === true) {
+            setSolveStatus({ status: true })
             autoSolve({ page: page, browser: browser })
         }
 
