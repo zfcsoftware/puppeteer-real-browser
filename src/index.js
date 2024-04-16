@@ -13,10 +13,13 @@ function targetFilter({ target, skipTarget }) {
     if (global_target_status === false) {
         return true
     }
-    var response = !!target.url()
-    if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
-        response = true
-    }
+    var response = false
+    try {
+        response = !!target.url()
+        if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
+            response = true
+        }
+    } catch (err) {}
     return response;
 }
 
