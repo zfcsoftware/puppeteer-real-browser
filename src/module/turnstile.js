@@ -1,6 +1,4 @@
-import src from 'puppeteer-afp/src/index.js';
-import { notice, sleep } from './general.js'
-const checkStat = ({ page }) => {
+export const checkStat = ({ page }) => {
     return new Promise(async (resolve, reject) => {
         var st = setTimeout(() => {
             clearInterval(st)
@@ -40,21 +38,3 @@ const checkStat = ({ page }) => {
     })
 }
 
-
-var solve_status = true
-
-export const setSolveStatus = ({ status }) => {
-    solve_status = status
-}
-
-export const autoSolve = ({ page, browser }) => {
-    return new Promise(async (resolve, reject) => {
-        while (solve_status) {
-            try {
-                await sleep(1500)
-                await checkStat({ page: page }).catch(err => { })
-            } catch (err) { }
-        }
-        resolve()
-    })
-}

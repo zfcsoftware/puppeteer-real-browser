@@ -79,9 +79,9 @@ connect({
 
     turnstile: true,
 
-    connectOption: {},
+    connectOption: {}
 
-    tf: true,
+    fpconfig: {},
 
     // proxy:{
     //     host:'<proxy-host>',
@@ -115,8 +115,7 @@ connect({
 **turnstile:** Cloudflare Turnstile automatically clicks on Captchas if set to true
 
 **connectOption:** The variables you send when connecting to chromium created with puppeteer.connect are added
-
-**tf:** We use targetfilter to avoid detection. This feature prevents the opening of new pages and some startup options. For this reason, we have added a feature to turn off the filter when starting the browser. This filter can also be removed later with the setTarget function.
+**fpconfig:** This setting allows you to reuse fingerprint values that you have previously saved in the puppeteer-afp library. Please refer to the puppeteer-afp library documentation for details.
 
 For example, if you want to open a 2nd page, you can use this library as follows.
 
@@ -125,7 +124,6 @@ For example, if you want to open a 2nd page, you can use this library as follows
 import { connect } from 'puppeteer-real-browser'
 
 connect({
-    tf: true, // If a feature you want to use at startup is not working, you can initialize the tf variable false and update it later.
     turnstile: true
 })
 .then(async response => {
@@ -168,7 +166,7 @@ docker build -t puppeteer-real-browser-project .
 
 
 ```bash
-docker run -p 8080:3000 puppeteer-real-browser-project
+docker run puppeteer-real-browser-project
 ```
 
 ## Support Us
@@ -193,4 +191,4 @@ This software is not intended to bypass Cloudflare Captcha or any other security
 
 This software is not officially endorsed or guaranteed. Users can visit the GitHub page to report bugs or contribute to the software, but they are not entitled to make any claims or request service fixes.
 
-By using this software, you agree to this disclaimer.
+By using this software, you agree to this disclaimer.****

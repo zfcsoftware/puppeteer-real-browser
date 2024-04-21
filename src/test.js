@@ -10,12 +10,11 @@ while (true) {
         skipTarget: [],
         fingerprint: true,
         turnstile: true,
-        connectOption: {},
-        tf: true,
+        connectOption: {}
     })
-    // var cl = setInterval(() => {
-    //     page.screenshot({ path: 'example.png' });
-    // }, 1000);
+    var cl = setInterval(() => {
+        page.screenshot({ path: 'example.png', fullPage: true }).catch(e => console.log(e.message));
+    }, 1000);
     console.log('Connected to browser');
     await page.goto('https://nopecha.com/demo/cloudflare', {
         waitUntil: 'domcontentloaded'
@@ -24,7 +23,8 @@ while (true) {
     await page.waitForSelector('.link_row', {
         timeout: 60000
     })
-    // clearInterval(cl)
+    // await page.screenshot({ path: 'example.png' });
+    clearInterval(cl)
     await browser.close()
     console.log('End of test.js');
 }

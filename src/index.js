@@ -1,44 +1,54 @@
 import { startSession, closeSession } from './module/chromium.js'
 import puppeteer from 'puppeteer-extra';
-import { notice, slugify } from './module/general.js'
-import { autoSolve, setSolveStatus } from './module/turnstile.js'
-import { fp } from './module/afp.js';
+import { notice, sleep } from './module/general.js'
+import { checkStat } from './module/turnstile.js'
+import { protectPage, protectedBrowser } from 'puppeteer-afp'
 import { puppeteerRealBrowser } from './module/old.js'
 export { puppeteerRealBrowser };
 
-var global_target_status = true
 
-function targetFilter({ target, skipTarget }) {
-
-    if (global_target_status === false) {
-        return true
-    }
-    var response = false
-    try {
-        response = !!target.url()
-        if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
-            response = true
-        }
-    } catch (err) {}
-    return response;
-}
-
-
-async function handleNewPage(page) {
-    fp(page);
+async function handleNewPage({ page, config = {} }) {
+    // fp(page);
+    protectPage(page, {
+        webRTCProtect: false,
+        ...config
+    });
     return page
 }
 
-
-const setTarget = ({ status = true }) => {
-    global_target_status = status
-}
-
-
-export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy = {}, skipTarget = [], fingerprint = true, turnstile = false, connectOption = {}, tf = true }) => {
+export const connect = ({
+    args = [],
+    headless = 'auto',
+    customConfig = {},
+    proxy = {},
+    skipTarget = [],
+    fingerprint = true,
+    turnstile = false,
+    connectOption = {},
+    fpconfig = {}
+}) => {
     return new Promise(async (resolve, reject) => {
+        var global_target_status = false
 
-        global_target_status = tf
+        function targetFilter({ target, skipTarget }) {
+
+            if (global_target_status === false) {
+                return true
+            }
+            var response = false
+            try {
+                response = !!target.url()
+                if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
+                    response = true
+                }
+            } catch (err) { }
+            return response;
+        }
+
+        const setTarget = ({ status = true }) => {
+            global_target_status = status
+        }
+
 
         const { chromeSession, cdpSession, chrome, xvfbsession } = await startSession({
             args: args,
@@ -57,12 +67,36 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
 
         page = page[0]
 
+        setTarget({ status: true })
+
+
+
         if (proxy && proxy.username && proxy.username.length > 0) {
             await page.authenticate({ username: proxy.username, password: proxy.password });
         }
 
+        var solve_status = true
+
+
+        const setSolveStatus = ({ status }) => {
+            solve_status = status
+        }
+
+        const autoSolve = ({ page }) => {
+            return new Promise(async (resolve, reject) => {
+                while (solve_status) {
+                    try {
+                        await sleep(1500)
+                        await checkStat({ page: page }).catch(err => { })
+                    } catch (err) { }
+                }
+                resolve()
+            })
+        }
+
+
         if (fingerprint === true) {
-            handleNewPage(page);
+            handleNewPage({ page: page, config: fpconfig });
         }
         if (turnstile === true) {
             setSolveStatus({ status: true })
@@ -81,12 +115,12 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
                 message: 'Browser Disconnected',
                 type: 'info'
             })
-            setSolveStatus({ status: false })
+            try { setSolveStatus({ status: false }) } catch (err) { }
             await closeSession({
                 xvfbsession: xvfbsession,
                 cdpSession: cdpSession,
                 chrome: chrome
-            })
+            }).catch(err => { console.log(err.message); })
         });
 
 
@@ -109,9 +143,13 @@ export const connect = ({ args = [], headless = 'auto', customConfig = {}, proxy
             }
 
 
+
+
+
+
             if (newPage && fingerprint === true) {
                 try {
-                    handleNewPage(newPage);
+                    handleNewPage({ page: newPage, config: fpconfig });
                 } catch (err) { }
             }
 
