@@ -75,7 +75,7 @@ connect({
 
     skipTarget: [],
 
-    fingerprint: true,
+    fingerprint: false,
 
     turnstile: true,
 
@@ -110,7 +110,7 @@ connect({
 
 **skipTarget:** It uses target filter to avoid detection. You can send the targets you want to allow. This feature is in beta. Its use is not recommended.
 
-**fingerprint:** If set to true, it injects a unique fingerprint ID into the page every time the browser is launched and prevents you from being caught.
+**fingerprint:** If set to true, it injects a unique fingerprint ID into the page every time the browser is launched and prevents you from being caught. **Not recommended if not mandatory. May cause detection. runs the puppeteer-afp library.**
 
 **turnstile:** Cloudflare Turnstile automatically clicks on Captchas if set to true
 

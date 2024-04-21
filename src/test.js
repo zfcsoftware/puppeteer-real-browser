@@ -8,7 +8,7 @@ while (true) {
         args: [],
         customConfig: {},
         skipTarget: [],
-        fingerprint: true,
+        fingerprint: false,
         turnstile: true,
         connectOption: {}
     })
