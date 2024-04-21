@@ -79,7 +79,7 @@ connect({
 
     turnstile: true,
 
-    connectOption: {}
+    connectOption: {},
 
     fpconfig: {},
 
