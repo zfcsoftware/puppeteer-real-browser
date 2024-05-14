@@ -10,7 +10,7 @@
     This package prevents Puppeteer from being detected as a bot in services like Cloudflare and allows you to pass captchas without any problems. It behaves like a real browser.
     <br/>
     <br/>
-    If you are only interested in Cloudflare WAF, please check this repo: https://github.com/zfcsoftware/cf-clearance-scraper
+    If you are only interested in Cloudflare WAF, please check this repo:<br/> https://github.com/zfcsoftware/cf-clearance-scraper
   </p>
 </p>
 
