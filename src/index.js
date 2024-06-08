@@ -50,7 +50,7 @@ export const connect = ({
         }
 
 
-        const { chromeSession, cdpSession, chrome, xvfbsession } = await startSession({
+        const { chromeSession, chrome, xvfbsession } = await startSession({
             args: args,
             headless: headless,
             customConfig: customConfig,
@@ -118,7 +118,6 @@ export const connect = ({
             try { setSolveStatus({ status: false }) } catch (err) { }
             await closeSession({
                 xvfbsession: xvfbsession,
-                cdpSession: cdpSession,
                 chrome: chrome
             }).catch(err => { console.log(err.message); })
         });
@@ -162,7 +161,6 @@ export const connect = ({
             browser: browser,
             page: page,
             xvfbsession: xvfbsession,
-            cdpSession: cdpSession,
             chrome: chrome,
             setTarget: setTarget
         })

@@ -5,15 +5,10 @@ import axios from 'axios'
 import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
 
-export const closeSession = async ({ xvfbsession, cdpSession, chrome }) => {
+export const closeSession = async ({ xvfbsession,  chrome }) => {
     if (xvfbsession) {
         try {
             xvfbsession.stopSync();
-        } catch (err) { }
-    }
-    if (cdpSession) {
-        try {
-            await cdpSession.close();
         } catch (err) { }
     }
     if (chrome) {
@@ -47,7 +42,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 headless = slugify(process.platform).includes('linux') ? true : false
             }
 
-            const chromeFlags = ['--no-sandbox','--disable-setuid-sandbox','--disable-blink-features=AutomationControlled'].concat(args);
+            const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled','--window-size=1920,1080'].concat(args);
 
             if (headless === true) {
                 slugify(process.platform).includes('win') ? chromeFlags.push('--headless=new') : ''
@@ -77,15 +72,6 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 chromeFlags,
                 ...customConfig
             });
-            var cdpSession = await CDP({ port: chrome.port });
-            const { Network, Page, Runtime, DOM } = cdpSession;
-            await Promise.all([
-                Page.enable(),
-                Page.setLifecycleEventsEnabled({ enabled: true }),
-                Runtime.enable(),
-                Network.enable(),
-                DOM.enable()
-            ]);
 
             var chromeSession = await axios.get('http://localhost:' + chrome.port + '/json/version')
                 .then(response => {
@@ -100,7 +86,6 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 })
             return resolve({
                 chromeSession: chromeSession,
-                cdpSession: cdpSession,
                 chrome: chrome,
                 xvfbsession: xvfbsession
             })
