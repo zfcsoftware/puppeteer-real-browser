@@ -1,7 +1,6 @@
 import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
-import axios from 'axios'
 import puppeteer from 'puppeteer-extra';
 import Xvfb from 'xvfb';
 import clc from 'cli-color'
@@ -63,13 +62,14 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             await Page.enable();
             await Page.setLifecycleEventsEnabled({ enabled: true });
 
-            var data = await axios.get('http://localhost:' + chrome.port + '/json/version').then(response => {
-                response = response.data
-                return {
-                    browserWSEndpoint: response.webSocketDebuggerUrl,
-                    agent: response['User-Agent']
-                }
-            })
+            var data = await fetch('http://localhost:' + chrome.port + '/json/version')
+                .then(response => response.json())
+                .then(response => {
+                    return {
+                        browserWSEndpoint: response.webSocketDebuggerUrl,
+                        agent: response['User-Agent']
+                    }
+                })
                 .catch(err => {
                     throw new Error(err.message)
                 })
