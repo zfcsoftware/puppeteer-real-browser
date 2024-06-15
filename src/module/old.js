@@ -1,10 +1,12 @@
 import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
-import puppeteer from 'puppeteer-extra';
+import vanillaPuppeteer from 'puppeteer';
+import { addExtra } from 'puppeteer-extra';
 import pc from 'picocolors'
 import {notice} from './general.js'
 
+const puppeteer = addExtra(vanillaPuppeteer);
 
 export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless = false, executablePath = 'default' }) => {
     return new Promise(async (resolve, reject) => {

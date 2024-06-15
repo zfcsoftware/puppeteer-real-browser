@@ -1,11 +1,13 @@
 import { startSession, closeSession } from './module/chromium.js'
-import puppeteer from 'puppeteer-extra';
+import vanillaPuppeteer from 'puppeteer';
+import { addExtra } from 'puppeteer-extra';
 import { notice, sleep } from './module/general.js'
 import { checkStat } from './module/turnstile.js'
 import { protectPage, protectedBrowser } from 'puppeteer-afp'
 import { puppeteerRealBrowser } from './module/old.js'
 export { puppeteerRealBrowser };
 
+const puppeteer = addExtra(vanillaPuppeteer);
 
 async function handleNewPage({ page, config = {} }) {
     // fp(page);
