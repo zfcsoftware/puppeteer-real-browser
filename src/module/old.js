@@ -2,7 +2,6 @@ import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
 import puppeteer from 'puppeteer-extra';
-import Xvfb from 'xvfb';
 import pc from 'picocolors'
 import {notice} from './general.js'
 
@@ -38,6 +37,8 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
 
             if (process.platform === 'linux') {
                 try {
+                    const { default: Xvfb } = await import('xvfb');
+                    
                     var xvfbsession = new Xvfb({
                         silent: true,
                         xvfb_args: ['-screen', '0', '1280x720x24', '-ac']

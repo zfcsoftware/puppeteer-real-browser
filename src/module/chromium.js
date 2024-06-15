@@ -1,7 +1,6 @@
 import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
-import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
 
 export const closeSession = async ({ xvfbsession,  chrome }) => {
@@ -53,6 +52,8 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
 
             if (process.platform === 'linux') {
                 try {
+                    const { default: Xvfb } = await import('xvfb');
+                    
                     var xvfbsession = new Xvfb({
                         silent: true,
                         xvfb_args: ['-screen', '0', '1920x1080x24', '-ac']
