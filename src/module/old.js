@@ -3,7 +3,7 @@ import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
 import puppeteer from 'puppeteer-extra';
 import Xvfb from 'xvfb';
-import clc from 'cli-color'
+import pc from 'picocolors'
 import {notice} from './general.js'
 
 
@@ -18,7 +18,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             var chromePath = chromium.path;
 
             if (process.platform === 'linux' && headless === false) {
-                console.log(clc.yellow('[WARNING] [PUPPETEER-REAL-BROWSER] | On the Linux platform you can only run the browser in headless true mode.'));
+                console.log(pc.yellow('[WARNING] [PUPPETEER-REAL-BROWSER] | On the Linux platform you can only run the browser in headless true mode.'));
                 headless = true
             }
 
@@ -44,7 +44,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
                     });
                     xvfbsession.startSync();
                 } catch (err) {
-                    console.log(clc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb'));
+                    console.log(pc.red('[ERROR] [PUPPETEER-REAL-BROWSER] | You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb'));
                     console.log(err.message);
                 }
             }
