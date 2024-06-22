@@ -18,7 +18,6 @@ export const notice = ({ message = '', type = 'warning' }) => {
             console.log(pc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
     }
-    return true
 }
 
 export function slugify(text) {
