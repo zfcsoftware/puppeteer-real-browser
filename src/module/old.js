@@ -65,7 +65,7 @@ export const puppeteerRealBrowser = ({ proxy = {}, action = 'default', headless 
             await Page.enable();
             await Page.setLifecycleEventsEnabled({ enabled: true });
 
-            var data = await fetch('http://localhost:' + chrome.port + '/json/version')
+            var data = await fetch(`http://localhost:${chrome.port}/json/version`)
                 .then(response => response.json())
                 .then(response => {
                     return {
