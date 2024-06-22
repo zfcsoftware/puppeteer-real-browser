@@ -31,10 +31,8 @@ export function slugify(text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-export const sleep = (ms) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve()
-        }, ms);
+export const sleep = (ms) => (
+    new Promise((resolve) => {
+        setTimeout(resolve, ms);
     })
-}
+)
