@@ -33,7 +33,7 @@
     "chrome-launcher": "^1.1.2",
     "chrome-remote-interface": "^0.33.0",
     "picocolors": "^1.0.1",
-    "puppeteer": "^22.11.0",
+    "puppeteer": "^22.12.0",
     "puppeteer-afp": "https://github.com/zfcsoftware/puppeteer-afp/tree/master",
     "puppeteer-extra": "^3.3.6",
     "xvfb": "^0.4.0"
