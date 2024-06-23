@@ -44,7 +44,7 @@ sudo apt-get install xvfb
 ```js
 
 const start = async () => {
-    var { connect } = await import('puppeteer-real-browser')
+    const { connect } = await import('puppeteer-real-browser')
     const { page, browser } = await connect({})
 }
 

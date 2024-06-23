@@ -29,12 +29,11 @@
   "author": "zfc-software",
   "license": "ISC",
   "dependencies": {
-    "@sparticuz/chromium": "^119.0.2",
-    "axios": "^1.6.7",
-    "chrome-launcher": "^1.1.0",
+    "@sparticuz/chromium": "^123.0.1",
+    "chrome-launcher": "^1.1.2",
     "chrome-remote-interface": "^0.33.0",
-    "cli-color": "^2.0.3",
-    "puppeteer": "^21.11.0",
+    "picocolors": "^1.0.1",
+    "puppeteer": "^22.12.0",
     "puppeteer-afp": "https://github.com/zfcsoftware/puppeteer-afp/tree/master",
     "puppeteer-extra": "^3.3.6",
     "xvfb": "^0.4.0"

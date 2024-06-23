@@ -1,30 +1,33 @@
-import clc from 'cli-color'
+import pc from 'picocolors';
 
+/**
+ * @param {{
+ *  message: string;
+ *  type: 'warning' | 'error' | 'info' | 'success';
+ * }} params
+ */
 export const notice = ({ message = '', type = 'warning' }) => {
     switch (type) {
         case 'warning':
-            console.log(clc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
+            console.log(pc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
         case 'error':
-            console.log(clc.red(`[ERROR] [PUPPETEER-REAL-BROWSER] | ${message}`));
+            console.log(pc.red(`[ERROR] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
         case 'info':
-            console.log(clc.blue(`[INFO] [PUPPETEER-REAL-BROWSER] | ${message}`));
+            console.log(pc.blue(`[INFO] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
         case 'success':
-            console.log(clc.green(`[SUCCESS] [PUPPETEER-REAL-BROWSER] | ${message}`));
+            console.log(pc.green(`[SUCCESS] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
         default:
-            console.log(clc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
+            console.log(pc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
     }
-    return true
-}
-
+};
 
 export function slugify(text) {
-    text = String(text)
-    return text
+    return String(text)
         .toUpperCase()
         .toLowerCase()
         .normalize('NFD')
@@ -33,10 +36,7 @@ export function slugify(text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-export const sleep = (ms) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve()
-        }, ms);
-    })
-}
+export const sleep = (ms) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
