@@ -7,10 +7,10 @@ export const checkStatNested = async ({ page }) => {
         const url = new URL(pageURL);
 
         hostname = url.hostname;
-    } catch (err) { }
+    } catch (err) {}
 
-    const frames = await page.frames().filter(frame => {
-        return frame.url().includes('cloudflare') || frame.url().includes(hostname)
+    const frames = await page.frames().filter((frame) => {
+        return frame.url().includes('cloudflare') || frame.url().includes(hostname);
     });
 
     if (frames.length <= 0) {
@@ -27,11 +27,11 @@ export const checkStatNested = async ({ page }) => {
             if (srcValue.includes('turnstile')) {
                 await element.click();
             }
-        } catch (err) { }
+        } catch (err) {}
     }
 
     return true;
-}
+};
 
 export const checkStat = (params) => {
     let interval;

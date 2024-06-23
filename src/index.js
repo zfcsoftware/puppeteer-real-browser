@@ -1,10 +1,12 @@
-import { startSession, closeSession } from './module/chromium.js'
 import vanillaPuppeteer from 'puppeteer';
+import { protectPage, protectedBrowser } from 'puppeteer-afp';
 import { addExtra } from 'puppeteer-extra';
-import { notice, sleep } from './module/general.js'
-import { checkStat } from './module/turnstile.js'
-import { protectPage, protectedBrowser } from 'puppeteer-afp'
-import { puppeteerRealBrowser } from './module/old.js'
+
+import { closeSession, startSession } from './module/chromium.js';
+import { notice, sleep } from './module/general.js';
+import { puppeteerRealBrowser } from './module/old.js';
+import { checkStat } from './module/turnstile.js';
+
 export { puppeteerRealBrowser };
 
 const puppeteer = addExtra(vanillaPuppeteer);
@@ -13,9 +15,10 @@ async function handleNewPage({ page, config = {} }) {
     // fp(page);
     protectPage(page, {
         webRTCProtect: false,
-        ...config
+        ...config,
     });
-    return page
+
+    return page;
 }
 
 export const connect = async ({
@@ -27,101 +30,108 @@ export const connect = async ({
     fingerprint = false,
     turnstile = false,
     connectOption = {},
-    fpconfig = {}
+    fpconfig = {},
 }) => {
-    let globalTargetStatus = false
+    let globalTargetStatus = false;
 
     function targetFilter({ target, skipTarget }) {
         if (globalTargetStatus === false) {
-            return true
+            return true;
         }
 
         try {
             if (!target.url()) {
                 return false;
             }
-            
+
             const targetUrl = String(target.url());
-            
-            if (skipTarget.some(item => targetUrl.includes(String(item)))) {
+
+            if (skipTarget.some((item) => targetUrl.includes(String(item)))) {
                 return true;
             }
-        } catch (err) { }
+        } catch (err) {}
 
         return false;
     }
 
     const setTarget = ({ status = true }) => {
-        globalTargetStatus = status
-    }
+        globalTargetStatus = status;
+    };
 
     const { chromeSession, chrome, xvfbsession } = await startSession({
         args,
         headless,
         customConfig,
-        proxy
-    })
+        proxy,
+    });
 
     const browser = await puppeteer.connect({
         targetFilter: (target) => targetFilter({ target, skipTarget }),
         browserWSEndpoint: chromeSession.browserWSEndpoint,
-        ...connectOption
+        ...connectOption,
     });
 
-    const [page] = await browser.pages()
+    const [page] = await browser.pages();
 
-    setTarget({ status: true })
+    setTarget({ status: true });
 
-    if (proxy && proxy.username && proxy.username.length > 0) {
-        await page.authenticate({ username: proxy.username, password: proxy.password });
+    if (proxy?.username && proxy.username.length > 0) {
+        await page.authenticate({
+            username: proxy.username,
+            password: proxy.password,
+        });
     }
 
-    let solveStatus = true
+    let solveStatus = true;
 
     const setSolveStatus = ({ status }) => {
-        solveStatus = status
-    }
+        solveStatus = status;
+    };
 
     const autoSolve = async ({ page }) => {
         while (solveStatus) {
             try {
-                await sleep(1500)
-                await checkStat({ page }).catch(err => { })
-            } catch (err) { }
+                await sleep(1500);
+                await checkStat({ page }).catch((err) => {});
+            } catch (err) {}
         }
-    }
+    };
 
     if (fingerprint === true) {
         handleNewPage({ page, config: fpconfig });
     }
 
     if (turnstile === true) {
-        setSolveStatus({ status: true })
-        autoSolve({ page, browser })
+        setSolveStatus({ status: true });
+        autoSolve({ page, browser });
     }
 
     await page.setUserAgent(chromeSession.agent);
 
     await page.setViewport({
         width: 1920,
-        height: 1080
+        height: 1080,
     });
 
     browser.on('disconnected', async () => {
         notice({
             message: 'Browser Disconnected',
-            type: 'info'
-        })
+            type: 'info',
+        });
 
-        try { setSolveStatus({ status: false }) } catch (err) { }
+        try {
+            setSolveStatus({ status: false });
+        } catch (err) {}
 
         await closeSession({
             xvfbsession,
-            chrome
-        }).catch(err => { console.log(err.message); })
+            chrome,
+        }).catch((err) => {
+            console.log(err.message);
+        });
     });
 
-    browser.on('targetcreated', async target => {
+    browser.on('targetcreated', async (target) => {
         const newPage = await target.page();
 
         try {
@@ -133,7 +143,7 @@ export const connect = async ({
         try {
             await newPage.setViewport({
                 width: 1920,
-                height: 1080
+                height: 1080,
             });
         } catch (err) {
             // console.log(err.message);
@@ -142,11 +152,11 @@ export const connect = async ({
         if (newPage && fingerprint === true) {
             try {
                 handleNewPage({ page: newPage, config: fpconfig });
-            } catch (err) { }
+            } catch (err) {}
         }
 
         if (turnstile === true) {
-            autoSolve({ page: newPage })
+            autoSolve({ page: newPage });
         }
     });
 
@@ -155,11 +165,6 @@ export const connect = async ({
         page,
         xvfbsession,
         chrome,
-        setTarget
+        setTarget,
     };
-}
-
-
-
-
-
+};

@@ -1,4 +1,4 @@
-import pc from 'picocolors'
+import pc from 'picocolors';
 
 export const notice = ({ message = '', type = 'warning' }) => {
     switch (type) {
@@ -18,7 +18,7 @@ export const notice = ({ message = '', type = 'warning' }) => {
             console.log(pc.yellow(`[WARNING] [PUPPETEER-REAL-BROWSER] | ${message}`));
             break;
     }
-}
+};
 
 export function slugify(text) {
     return String(text)
@@ -30,8 +30,7 @@ export function slugify(text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-export const sleep = (ms) => (
+export const sleep = (ms) =>
     new Promise((resolve) => {
         setTimeout(resolve, ms);
-    })
-)
+    });
