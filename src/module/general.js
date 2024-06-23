@@ -1,5 +1,11 @@
 import pc from 'picocolors';
 
+/**
+ * @param {{
+ *  message: string;
+ *  type: 'warning' | 'error' | 'info' | 'success';
+ * }} params
+ */
 export const notice = ({ message = '', type = 'warning' }) => {
     switch (type) {
         case 'warning':

@@ -1,3 +1,6 @@
+/**
+ * @param {{ page: import('puppeteer').Page }} params
+ */
 export const checkStatNested = async ({ page }) => {
     let hostname = '';
 
@@ -33,6 +36,10 @@ export const checkStatNested = async ({ page }) => {
     return true;
 };
 
+/**
+ * @param {{ page: import('puppeteer').Page }} params
+ * @returns {Promise<boolean>}
+ */
 export const checkStat = (params) => {
     let interval;
 
