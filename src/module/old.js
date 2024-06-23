@@ -146,8 +146,7 @@ export const puppeteerRealBrowser = async ({
             }
         };
 
-        const pages = await browser.pages();
-        const page = pages[0];
+        const [page] = await browser.pages();
 
         if (proxy?.username && proxy.username.length > 0) {
             await page.authenticate({
