@@ -29,13 +29,18 @@ export const startSession = async ({
         const chromePath =
             customConfig.executablePath || customConfig.chromePath || chromium.path;
 
-        if (slugify(process.platform).includes('linux') && headless === false) {
+		const platform = slugify(process.platform);
+
+		const isLinuxPlatform = platform.includes('linux');
+		const isWindowsPlatform = platform.includes('win');
+
+        if (isLinuxPlatform && headless === false) {
             notice({
                 message:
                     'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
                 type: 'error',
             });
-        } else if (slugify(process.platform).includes('win') && headless === true) {
+        } else if (isWindowsPlatform && headless === true) {
             notice({
                 message:
                     'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
@@ -44,7 +49,7 @@ export const startSession = async ({
         }
 
         if (headless === 'auto') {
-            headless = slugify(process.platform).includes('linux');
+            headless = isLinuxPlatform;
         }
 
         const chromeFlags = [
@@ -54,7 +59,7 @@ export const startSession = async ({
             '--window-size=1920,1080',
         ].concat(args);
 
-        if (headless === true && slugify(process.platform).includes('win')) {
+        if (headless === true && isWindowsPlatform) {
             chromeFlags.push('--headless=new');
         }
 
