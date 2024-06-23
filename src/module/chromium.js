@@ -20,8 +20,8 @@ export const closeSession = async ({ xvfbsession,  chrome }) => {
 
 export const startSession = async ({ args = [], headless = 'auto', customConfig = {}, proxy = {} }) => {
     try {
-        var xvfbsession = null
-        var chromePath = customConfig.executablePath || customConfig.chromePath || chromium.path;
+        let xvfbsession = null
+        const chromePath = customConfig.executablePath || customConfig.chromePath || chromium.path;
 
         if (slugify(process.platform).includes('linux') && headless === false) {
             notice({
@@ -36,7 +36,7 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
         }
 
         if (headless === 'auto') {
-            headless = slugify(process.platform).includes('linux') ? true : false
+            headless = slugify(process.platform).includes('linux')
         }
 
         const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled','--window-size=1920,1080'].concat(args);
@@ -53,10 +53,11 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
             try {
                 const { default: Xvfb } = await import('xvfb');
                 
-                var xvfbsession = new Xvfb({
+                xvfbsession = new Xvfb({
                     silent: true,
                     xvfb_args: ['-screen', '0', '1920x1080x24', '-ac']
                 });
+
                 xvfbsession.startSync();
             } catch (err) {
                 notice({
@@ -66,13 +67,13 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
             }
         }
 
-        var chrome = await launch({
+        const chrome = await launch({
             chromePath,
             chromeFlags,
             ...customConfig
         });
 
-        var chromeSession = await fetch(`http://localhost:${chrome.port}/json/version`)
+        const chromeSession = await fetch(`http://localhost:${chrome.port}/json/version`)
             .then(response => response.json())
             .then(response => {
                 return {
@@ -85,9 +86,9 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
             })
 
         return {
-            chromeSession: chromeSession,
-            chrome: chrome,
-            xvfbsession: xvfbsession
+            chromeSession,
+            chrome,
+            xvfbsession
         };
     } catch (err) {
         console.log(err);

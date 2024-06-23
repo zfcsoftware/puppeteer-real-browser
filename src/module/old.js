@@ -14,8 +14,8 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
             type: 'error'
         })
 
-        var xvfbsession = null
-        var chromePath = chromium.path;
+        let xvfbsession = null
+        let chromePath = chromium.path;
 
         if (process.platform === 'linux' && headless === false) {
             notice({
@@ -43,10 +43,11 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
             try {
                 const { default: Xvfb } = await import('xvfb');
                 
-                var xvfbsession = new Xvfb({
+                xvfbsession = new Xvfb({
                     silent: true,
                     xvfb_args: ['-screen', '0', '1280x720x24', '-ac']
                 });
+
                 xvfbsession.startSync();
             } catch (err) {
                 notice({
@@ -57,12 +58,12 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
             }
         }
 
-        var chrome = await launch({
+        const chrome = await launch({
             chromePath,
             chromeFlags
         });
 
-        var cdpSession = await CDP({ port: chrome.port });
+        const cdpSession = await CDP({ port: chrome.port });
 
         const { Network, Page, Runtime } = cdpSession;
 
@@ -71,7 +72,7 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
         await Page.enable();
         await Page.setLifecycleEventsEnabled({ enabled: true });
 
-        var data = await fetch(`http://localhost:${chrome.port}/json/version`)
+        const data = await fetch(`http://localhost:${chrome.port}/json/version`)
             .then(response => response.json())
             .then(response => {
                 return {
@@ -82,7 +83,6 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
             .catch(err => {
                 throw new Error(err.message)
             })
-
 
         if (action !== 'default') {
             const closeSession = async () => {
@@ -105,12 +105,13 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
                 return true
             }
 
-            var smallResponse = {
+            const smallResponse = {
                 userAgent: data.agent,
                 browserWSEndpoint: data.browserWSEndpoint,
-                closeSession: closeSession,
-                chromePath: chromePath
+                closeSession,
+                chromePath
             }
+
             return smallResponse
         }
 
@@ -151,8 +152,8 @@ export const puppeteerRealBrowser = async ({ proxy = {}, action = 'default', hea
         });
 
         return {
-            browser: browser,
-            page: page
+            browser,
+            page
         };
     } catch (err) {
         console.log(err);

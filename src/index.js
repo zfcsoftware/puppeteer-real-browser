@@ -29,45 +29,46 @@ export const connect = async ({
     connectOption = {},
     fpconfig = {}
 }) => {
-    var global_target_status = false
+    let globalTargetStatus = false
 
     function targetFilter({ target, skipTarget }) {
-        if (global_target_status === false) {
+        if (globalTargetStatus === false) {
             return true
         }
 
-        var response = false
-
         try {
-            response = !!target.url()
-            if (skipTarget.find(item => String(target.url()).indexOf(String(item) > -1))) {
-                response = true
+            if (!target.url()) {
+                return false;
+            }
+            
+            const targetUrl = String(target.url());
+            
+            if (skipTarget.some(item => targetUrl.includes(String(item)))) {
+                return true;
             }
         } catch (err) { }
 
-        return response;
+        return false;
     }
 
     const setTarget = ({ status = true }) => {
-        global_target_status = status
+        globalTargetStatus = status
     }
 
     const { chromeSession, chrome, xvfbsession } = await startSession({
-        args: args,
-        headless: headless,
-        customConfig: customConfig,
-        proxy: proxy
+        args,
+        headless,
+        customConfig,
+        proxy
     })
 
     const browser = await puppeteer.connect({
-        targetFilter: (target) => targetFilter({ target: target, skipTarget: skipTarget }),
+        targetFilter: (target) => targetFilter({ target, skipTarget }),
         browserWSEndpoint: chromeSession.browserWSEndpoint,
         ...connectOption
     });
 
-    var page = await browser.pages()
-
-    page = page[0]
+    const [page] = await browser.pages()
 
     setTarget({ status: true })
 
@@ -75,28 +76,28 @@ export const connect = async ({
         await page.authenticate({ username: proxy.username, password: proxy.password });
     }
 
-    var solve_status = true
+    let solveStatus = true
 
     const setSolveStatus = ({ status }) => {
-        solve_status = status
+        solveStatus = status
     }
 
     const autoSolve = async ({ page }) => {
-        while (solve_status) {
+        while (solveStatus) {
             try {
                 await sleep(1500)
-                await checkStat({ page: page }).catch(err => { })
+                await checkStat({ page }).catch(err => { })
             } catch (err) { }
         }
     }
 
     if (fingerprint === true) {
-        handleNewPage({ page: page, config: fpconfig });
+        handleNewPage({ page, config: fpconfig });
     }
 
     if (turnstile === true) {
         setSolveStatus({ status: true })
-        autoSolve({ page: page, browser: browser })
+        autoSolve({ page, browser })
     }
 
     await page.setUserAgent(chromeSession.agent);
@@ -115,13 +116,13 @@ export const connect = async ({
         try { setSolveStatus({ status: false }) } catch (err) { }
 
         await closeSession({
-            xvfbsession: xvfbsession,
-            chrome: chrome
+            xvfbsession,
+            chrome
         }).catch(err => { console.log(err.message); })
     });
 
     browser.on('targetcreated', async target => {
-        var newPage = await target.page();
+        const newPage = await target.page();
 
         try {
             await newPage.setUserAgent(chromeSession.agent);
@@ -150,11 +151,11 @@ export const connect = async ({
     });
 
     return {
-        browser: browser,
-        page: page,
-        xvfbsession: xvfbsession,
-        chrome: chrome,
-        setTarget: setTarget
+        browser,
+        page,
+        xvfbsession,
+        chrome,
+        setTarget
     };
 }
 
