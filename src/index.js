@@ -4,7 +4,7 @@ import { notice, sleep } from './module/general.js'
 import { checkStat } from './module/turnstile.js'
 import { protectPage, protectedBrowser } from 'puppeteer-afp'
 import { puppeteerRealBrowser } from './module/old.js'
-export { puppeteerRealBrowser };
+export { puppeteerRealBrowser, startSession, closeSession, notice, sleep, checkStat };
 
 
 async function handleNewPage({ page, config = {} }) {
