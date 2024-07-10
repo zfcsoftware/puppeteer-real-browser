@@ -32,9 +32,10 @@ export const connect = ({
 
         function targetFilter({ target, skipTarget }) {
 
-            if (global_target_status === false) {
-                return true
-            }
+            try { if (turnstile === true && target._getTargetInfo().type == "iframe") return false } catch (err) { }
+
+            if (global_target_status === false) return true
+
             var response = false
             try {
                 response = !!target.url()

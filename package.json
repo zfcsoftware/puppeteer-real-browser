@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-real-browser",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "description": "This package is designed to bypass puppeteer's bot-detecting captchas such as Cloudflare. It acts like a real browser and can be managed with puppeteer.",
   "type": "module",
   "exports": "./src/index.js",
