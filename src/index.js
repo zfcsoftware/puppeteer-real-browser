@@ -37,8 +37,8 @@ async function handleNewPage({ page, config = {} }) {
  *  turnstile?: boolean;
  *  connectOption?: import('puppeteer').ConnectOptions;
  *  fpconfig?: Record<string, any>;
- * }} params 
- * @returns 
+ * }} params
+ * @returns
  */
 export const connect = async ({
     args = [],
@@ -54,6 +54,12 @@ export const connect = async ({
     let globalTargetStatus = false;
 
     function targetFilter({ target, skipTarget }) {
+        try {
+            if (turnstile === true && target._getTargetInfo().type === 'iframe') {
+                return false;
+            }
+        } catch (err) {}
+
         if (globalTargetStatus === false) {
             return true;
         }

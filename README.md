@@ -179,7 +179,8 @@ Distributed under the MIT License. See [LICENSE](https://github.com/zfcsoftware/
 
 ## Thank You
 
-* **Jimmy Laurent** - [Jimmy Laurent](https://github.com/JimmyLaurent) - *inspired by cloudflare-scraper library*
+* **Alptekin Gülcan** - [alpgul](https://github.com/alpgul) - *Contributed to targetFilter function*
+* **Jimmy Laurent** - [Jimmy Laurent](https://github.com/JimmyLaurent) - *Inspired by cloudflare-scraper library*
 * **CrispyyBaconx** - [CrispyyBaconx](https://github.com/CrispyyBaconx) - *Contributed to converting this library to Typescript*
 * **Pavle Aleksic** - [pavlealeksic](https://github.com/pavlealeksic) - *We change the fingerprint with the puppeteer-afp library.*
 
@@ -191,4 +192,4 @@ This software is not intended to bypass Cloudflare Captcha or any other security
 
 This software is not officially endorsed or guaranteed. Users can visit the GitHub page to report bugs or contribute to the software, but they are not entitled to make any claims or request service fixes.
 
-By using this software, you agree to this disclaimer.****
+By using this software, you agree to this disclaimer.

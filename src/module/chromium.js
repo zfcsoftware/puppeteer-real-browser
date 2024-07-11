@@ -29,10 +29,10 @@ export const startSession = async ({
         const chromePath =
             customConfig.executablePath || customConfig.chromePath || chromium.path;
 
-		const platform = slugify(process.platform);
+        const platform = slugify(process.platform);
 
-		const isLinuxPlatform = platform.includes('linux');
-		const isWindowsPlatform = platform.includes('win');
+        const isLinuxPlatform = platform.includes('linux');
+        const isWindowsPlatform = platform.includes('win');
 
         if (isLinuxPlatform && headless === false) {
             notice({

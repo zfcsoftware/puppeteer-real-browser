@@ -2,34 +2,20 @@
  * @param {{ page: import('puppeteer').Page }} params
  */
 export const checkStatNested = async ({ page }) => {
-    let hostname = '';
+    const elements = await page.$$('.cf-turnstile-wrapper');
 
-    try {
-        const pageURL = await page.url();
-
-        const url = new URL(pageURL);
-
-        hostname = url.hostname;
-    } catch (err) {}
-
-    const frames = await page.frames().filter((frame) => {
-        return frame.url().includes('cloudflare') || frame.url().includes(hostname);
-    });
-
-    if (frames.length <= 0) {
+    if (elements.length === 0) {
         return false;
     }
 
-    const elements = await page.$$('iframe');
-
     for (const element of elements) {
         try {
-            const srcProperty = await element.getProperty('src');
-            const srcValue = await srcProperty.jsonValue();
+            const box = await element.boundingBox();
 
-            if (srcValue.includes('turnstile')) {
-                await element.click();
-            }
+            const x = box.x + box.width / 2;
+            const y = box.y + box.height / 2;
+
+            await page.mouse.click(x, y);
         } catch (err) {}
     }
 
