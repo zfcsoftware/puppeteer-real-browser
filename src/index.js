@@ -5,7 +5,6 @@ import { checkStat } from './module/turnstile.js'
 import { protectPage, protectedBrowser } from 'puppeteer-afp'
 import { puppeteerRealBrowser } from './module/old.js'
 export { puppeteerRealBrowser };
-const __dirname = import.meta.dirname;
 
 
 async function handleNewPage({ page, config = {} }) {
@@ -29,7 +28,6 @@ export const connect = ({
     fpconfig = {}
 }) => {
     return new Promise(async (resolve, reject) => {
-        args.push(`--load-extension=${__dirname}/module/extension`)
         var global_target_status = false
 
         function targetFilter({ target, skipTarget }) {

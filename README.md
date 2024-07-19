@@ -18,7 +18,9 @@ https://github.com/zfcsoftware/puppeteer-real-browser/assets/123484092/bd8ca2b0-
 
  ![Contributors](https://img.shields.io/github/contributors/zfcsoftware/puppeteer-real-browser?color=dark-green) ![Forks](https://img.shields.io/github/forks/zfcsoftware/puppeteer-real-browser?style=social) ![Stargazers](https://img.shields.io/github/stars/zfcsoftware/puppeteer-real-browser?style=social) ![Issues](https://img.shields.io/github/issues/zfcsoftware/puppeteer-real-browser) ![License](https://img.shields.io/github/license/zfcsoftware/puppeteer-real-browser) 
 
+## Information
 
+Cloudflare has also started paying attention to mouse movements. Probably tracking mouse position for ip addresses with high spam scores. Since this library does not simulate mouse movements at the moment, you may experience captcha passing issues for proxies with high spam scores. This issue is under investigation and will be resolved soon. For now, it is recommended to use proxies with low spam score.
 
 ## Installation
 
