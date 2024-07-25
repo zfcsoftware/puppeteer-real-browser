@@ -26,7 +26,7 @@ export const connect = ({
 }) => {
     return new Promise(async (resolve, reject) => {
         var global_target_status = false
-        
+
         function targetFilter({ target, skipTarget }) {
 
             try { if (turnstile === true && target._getTargetInfo().type == "iframe") return false } catch (err) { }
@@ -46,13 +46,13 @@ export const connect = ({
         const setTarget = ({ status = true }) => {
             global_target_status = status
         }
-       
+
         customConfig = {
             ...customConfig,
             ...connectOption,
             targetFilter: (target) => targetFilter({ target: target, skipTarget: skipTarget }),
         }
-        
+        args.push('--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080');
         const { browser, xvfbsession } = await startSession({
             args: args,
             headless: headless,
