@@ -7,7 +7,7 @@ export const checkStat = ({ page }) => {
         }, 4000);
         try {
 
-            const elements = await page.$$('.cf-turnstile-wrapper');
+            const elements = await page.$$('.spacer > div');
 
             if (elements.length <= 0) return resolve(false);
 
