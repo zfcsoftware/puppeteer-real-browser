@@ -2,7 +2,7 @@ import { launch } from 'chrome-launcher';
 import chromium from '@sparticuz/chromium'
 import CDP from 'chrome-remote-interface';
 import axios from 'axios'
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import Xvfb from 'xvfb';
 import clc from 'cli-color'
 import {notice} from './general.js'
