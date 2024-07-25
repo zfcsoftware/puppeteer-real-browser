@@ -7,7 +7,7 @@ export const checkStat = ({ page }) => {
         }, 4000);
         try {
 
-            const elements = await page.$$('.spacer > div');
+            const elements = await page.$('.spacer > div');
 
             if (elements.length <= 0) return resolve(false);
 
