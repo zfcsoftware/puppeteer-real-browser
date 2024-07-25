@@ -51,7 +51,7 @@ async function checkCaptcha() {
     const token = await page.evaluate(() => {
         var cl = setTimeout(() => {
             resolve(false)
-        }, 15000);
+        }, 60000);
         return new Promise((resolve) => {
             const input = document.querySelector('input[name="cf-turnstile-response"]');
             if (input) {
