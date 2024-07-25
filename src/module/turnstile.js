@@ -7,13 +7,15 @@ export const checkStat = ({ page }) => {
         }, 4000);
         try {
 
-            const elements = await page.$$('.spacer > div');
+            const elements = await page.$$('[name="cf-turnstile-response"]');
 
             if (elements.length <= 0) return resolve(false);
 
             for (const element of elements) {
                 try {
-                    const box = await element.boundingBox();
+                    const parentElement = await element.evaluateHandle(el => el.parentElement);
+
+                    const box = await parentElement.boundingBox();
 
                     const x = box.x + box.width / 2;
                     const y = box.y + box.height / 2;

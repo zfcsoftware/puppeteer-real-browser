@@ -28,6 +28,7 @@ export const connect = ({
         var global_target_status = false
 
         function targetFilter({ target, skipTarget }) {
+            if (target.type() === 'page') return true;
 
             try { if (turnstile === true && target._getTargetInfo().type == "iframe") return false } catch (err) { }
 
@@ -150,7 +151,7 @@ export const connect = ({
                 autoSolve({ page: newPage })
             }
         });
-
+  
         resolve({
             browser: browser,
             page: page,
