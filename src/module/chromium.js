@@ -60,6 +60,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
             }
             const browser = await puppeteer.launch({
                 headless: false, // Since it is in the testing phase, headless fixed is used and will be updated with the incoming value in the future.
+                executablePath: chromePath,
                 args: chromeFlags,
                 ...customConfig
             })

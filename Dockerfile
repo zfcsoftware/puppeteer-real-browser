@@ -1,6 +1,7 @@
 # Use the official Node.js 16 image as the base image
 FROM node:latest
-
+RUN npm config set registry https://registry.npmjs.org/
+RUN npm cache clean --force
 # Install necessary dependencies for running Chrome
 RUN apt-get update && apt-get install -y \
     wget \
