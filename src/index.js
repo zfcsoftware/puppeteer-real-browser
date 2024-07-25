@@ -1,5 +1,5 @@
 import { startSession, closeSession } from './module/chromium.js'
-import puppeteer from 'puppeteer-extra';
+import puppeteer from 'puppeteer-core';
 import { notice, sleep } from './module/general.js'
 import { checkStat } from './module/turnstile.js'
 import { protectPage, protectedBrowser } from 'puppeteer-afp'
