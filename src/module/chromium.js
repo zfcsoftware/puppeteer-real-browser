@@ -1,21 +1,13 @@
-import { launch } from 'chrome-launcher';
-import chromium from '@sparticuz/chromium'
-import CDP from 'chrome-remote-interface';
-import axios from 'axios'
 import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
-
-export const closeSession = async ({ xvfbsession,  chrome }) => {
+import puppeteer from 'puppeteer'
+export const closeSession = async ({ xvfbsession }) => {
     if (xvfbsession) {
         try {
             xvfbsession.stopSync();
         } catch (err) { }
     }
-    if (chrome) {
-        try {
-            await chrome.kill();
-        } catch (err) { }
-    }
+
     return true
 }
 
@@ -24,7 +16,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
     return new Promise(async (resolve, reject) => {
         try {
             var xvfbsession = null
-            var chromePath = customConfig.executablePath || customConfig.chromePath || chromium.path;
+            var chromePath = customConfig.executablePath || customConfig.chromePath || puppeteer.executablePath()
 
             if (slugify(process.platform).includes('linux') && headless === false) {
                 notice({
@@ -42,7 +34,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 headless = slugify(process.platform).includes('linux') ? true : false
             }
 
-            const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled','--window-size=1920,1080'].concat(args);
+            const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080'].concat(args);
 
             if (headless === true) {
                 slugify(process.platform).includes('win') ? chromeFlags.push('--headless=new') : ''
@@ -66,27 +58,30 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                     })
                 }
             }
-
-            var chrome = await launch({
-                chromePath,
-                chromeFlags,
+            const browser = await puppeteer.launch({
+                headless: false, // Since it is in the testing phase, headless fixed is used and will be updated with the incoming value in the future.
+                args: chromeFlags,
                 ...customConfig
-            });
+            })
+            // var chrome = await launch({
+            //     chromePath,
+            //     chromeFlags,
+            //     ...customConfig
+            // });
 
-            var chromeSession = await axios.get('http://localhost:' + chrome.port + '/json/version')
-                .then(response => {
-                    response = response.data
-                    return {
-                        browserWSEndpoint: response.webSocketDebuggerUrl,
-                        agent: response['User-Agent']
-                    }
-                })
-                .catch(err => {
-                    throw new Error(err.message)
-                })
+            // var chromeSession = await axios.get('http://localhost:' + chrome.port + '/json/version')
+            //     .then(response => {
+            //         response = response.data
+            //         return {
+            //             browserWSEndpoint: response.webSocketDebuggerUrl,
+            //             agent: response['User-Agent']
+            //         }
+            //     })
+            //     .catch(err => {
+            //         throw new Error(err.message)
+            //     })
             return resolve({
-                chromeSession: chromeSession,
-                chrome: chrome,
+                browser,
                 xvfbsession: xvfbsession
             })
 

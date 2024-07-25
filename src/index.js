@@ -1,10 +1,7 @@
 import { startSession, closeSession } from './module/chromium.js'
-import puppeteer from 'puppeteer';
-import { notice, sleep } from './module/general.js'
+import { sleep } from './module/general.js'
 import { checkStat } from './module/turnstile.js'
-import { protectPage, protectedBrowser } from 'puppeteer-afp'
-import { puppeteerRealBrowser } from './module/old.js'
-export { puppeteerRealBrowser };
+import { protectPage } from 'puppeteer-afp'
 
 
 async function handleNewPage({ page, config = {} }) {
@@ -49,28 +46,25 @@ export const connect = ({
         const setTarget = ({ status = true }) => {
             global_target_status = status
         }
-
-
-        const { chromeSession, chrome, xvfbsession } = await startSession({
+       
+        customConfig = {
+            ...customConfig,
+            ...connectOption,
+            targetFilter: (target) => targetFilter({ target: target, skipTarget: skipTarget }),
+        }
+        
+        const { browser, xvfbsession } = await startSession({
             args: args,
             headless: headless,
             customConfig: customConfig,
             proxy: proxy
         })
 
-        const browser = await puppeteer.connect({
-            targetFilter: (target) => targetFilter({ target: target, skipTarget: skipTarget }),
-            browserWSEndpoint: chromeSession.browserWSEndpoint,
-            ...connectOption
-        });
-
         var page = await browser.pages()
 
         page = page[0]
 
         setTarget({ status: true })
-
-
 
         if (proxy && proxy.username && proxy.username.length > 0) {
             await page.authenticate({ username: proxy.username, password: proxy.password });
@@ -104,7 +98,7 @@ export const connect = ({
             autoSolve({ page: page, browser: browser })
         }
 
-        await page.setUserAgent(chromeSession.agent);
+        // await page.setUserAgent(chromeSession.agent);
 
         await page.setViewport({
             width: 1920,
@@ -112,14 +106,13 @@ export const connect = ({
         });
 
         browser.on('disconnected', async () => {
-            notice({
-                message: 'Browser Disconnected',
-                type: 'info'
-            })
+            // notice({
+            //     message: 'Browser Disconnected',
+            //     type: 'info'
+            // })
             try { setSolveStatus({ status: false }) } catch (err) { }
             await closeSession({
-                xvfbsession: xvfbsession,
-                chrome: chrome
+                xvfbsession: xvfbsession
             }).catch(err => { console.log(err.message); })
         });
 
@@ -128,7 +121,7 @@ export const connect = ({
             var newPage = await target.page();
 
             try {
-                await newPage.setUserAgent(chromeSession.agent);
+                // await newPage.setUserAgent(chromeSession.agent);
             } catch (err) {
                 // console.log(err.message);
             }
@@ -162,7 +155,6 @@ export const connect = ({
             browser: browser,
             page: page,
             xvfbsession: xvfbsession,
-            chrome: chrome,
             setTarget: setTarget
         })
     })

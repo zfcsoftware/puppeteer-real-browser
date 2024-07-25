@@ -26,5 +26,5 @@ while (true) {
     // await page.screenshot({ path: 'example.png' });
     clearInterval(cl)
     await browser.close()
-    console.log('End of test.js');
+    console.log('[SUCCESS] End of test.js');
 }
