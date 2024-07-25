@@ -1,6 +1,8 @@
 import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
 import puppeteer from 'puppeteer'
+const __dirname = import.meta.dirname;
+
 export const closeSession = async ({ xvfbsession }) => {
     if (xvfbsession) {
         try {
@@ -58,6 +60,11 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                     })
                 }
             }
+
+            const EXTENSION_PATH = `${__dirname}/extension/`;
+            chromeFlags.push(`--disable-extensions-except=${EXTENSION_PATH}`)
+            chromeFlags.push(`--load-extension=${EXTENSION_PATH}`)
+
             const browser = await puppeteer.launch({
                 headless: false, // Since it is in the testing phase, headless fixed is used and will be updated with the incoming value in the future.
                 executablePath: chromePath,

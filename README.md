@@ -181,7 +181,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/zfcsoftware/
 
 ## Thank You
 
-* **Alptekin Gülcan** - [alpgul](https://github.com/alpgul) - *Contributed to targetFilter function*
+
 * **Jimmy Laurent** - [Jimmy Laurent](https://github.com/JimmyLaurent) - *Inspired by cloudflare-scraper library*
 * **CrispyyBaconx** - [CrispyyBaconx](https://github.com/CrispyyBaconx) - *Contributed to converting this library to Typescript*
 * **Pavle Aleksic** - [pavlealeksic](https://github.com/pavlealeksic) - *We change the fingerprint with the puppeteer-afp library.*

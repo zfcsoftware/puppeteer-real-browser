@@ -26,7 +26,7 @@ export const connect = ({
 }) => {
     return new Promise(async (resolve, reject) => {
         var global_target_status = false
-
+        
         function targetFilter({ target, skipTarget }) {
 
             try { if (turnstile === true && target._getTargetInfo().type == "iframe") return false } catch (err) { }
