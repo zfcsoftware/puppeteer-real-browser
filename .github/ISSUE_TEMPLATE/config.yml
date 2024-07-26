@@ -3,13 +3,7 @@ contact_links:
   - name: GitHub Community Support
     url: https://github.com/orgs/community/discussions
     about: Please ask and answer questions here.
-  - name: GitHub Security Bug Bounty
-    url: https://bounty.github.com/
-    about: Please report security vulnerabilities here.
 templates:
   - name: Bug Report
-    about: File a bug report
+    about: Please fill out the fields below completely in order to resolve the issue.
     filename: bug_report.md
-  - name: Feature Request
-    about: Suggest an idea for this project
-    filename: feature_request.md
