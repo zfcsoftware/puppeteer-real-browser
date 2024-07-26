@@ -3,6 +3,9 @@ import { notice, slugify } from './general.js'
 import puppeteer from 'puppeteer'
 const __dirname = import.meta.dirname;
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
 export const closeSession = async ({ xvfbsession }) => {
     if (xvfbsession) {
         try {
@@ -60,7 +63,11 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                     })
                 }
             }
-
+            let dirPath = __dirname
+            if (!dirPath || dirPath.length === 0) {
+                const __filename = fileURLToPath(import.meta.url);
+                dirPath = dirname(__filename);
+            }
             const EXTENSION_PATH = `${__dirname}/extension/`;
             chromeFlags.push(`--disable-extensions-except=${EXTENSION_PATH}`)
             chromeFlags.push(`--load-extension=${EXTENSION_PATH}`)
@@ -71,23 +78,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 args: chromeFlags,
                 ...customConfig
             })
-            // var chrome = await launch({
-            //     chromePath,
-            //     chromeFlags,
-            //     ...customConfig
-            // });
-
-            // var chromeSession = await axios.get('http://localhost:' + chrome.port + '/json/version')
-            //     .then(response => {
-            //         response = response.data
-            //         return {
-            //             browserWSEndpoint: response.webSocketDebuggerUrl,
-            //             agent: response['User-Agent']
-            //         }
-            //     })
-            //     .catch(err => {
-            //         throw new Error(err.message)
-            //     })
+           
             return resolve({
                 browser,
                 xvfbsession: xvfbsession
