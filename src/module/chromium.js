@@ -68,7 +68,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                 const __filename = fileURLToPath(import.meta.url);
                 dirPath = dirname(__filename);
             }
-            const EXTENSION_PATH = `${__dirname}/extension/`;
+            const EXTENSION_PATH = `${dirPath}/extension/`;
             chromeFlags.push(`--disable-extensions-except=${EXTENSION_PATH}`)
             chromeFlags.push(`--load-extension=${EXTENSION_PATH}`)
 
