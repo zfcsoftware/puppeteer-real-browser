@@ -1,76 +1,47 @@
-name: Bug Report
-description: Please fill out the fields below completely in order to resolve the issue. If the issue is not reproducible, please do not create a new issue.
-title: "[BUG] "
-labels: 
+name: 🐛 Bug Report
+description: Report an issue that should be fixed
+labels:
   - bug
-assignees: ''
+  - needs triage
 body:
-  - type: textarea
-    id: issue-description
+  - type: markdown
     attributes:
-      label: Issue Description
-      description: Please provide a clear and concise description of the bug.
-      placeholder: ...
-    validations:
-      required: true
-
-  - type: textarea
-    id: steps-to-reproduce
-    attributes:
-      label: Steps to Reproduce
-      description: Please provide detailed steps to reproduce the bug.
       value: |
-        1. ...
-        2. ...
-        3. ...
-    validations:
-      required: true
+        Thank you for submitting a bug report. It helps make Bun better.
 
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-      placeholder: ...
-    validations:
-      required: true
+        If you need help or support using Bun, and are not reporting a bug, please
+        join our [Discord](https://discord.gg/CXdq2DP29u) server, where you can ask questions in the [`#help`](https://discord.gg/32EtH6p7HN) forum.
 
-  - type: textarea
-    id: actual-behavior
-    attributes:
-      label: Actual Behavior
-      description: What actually happened?
-      placeholder: ...
-    validations:
-      required: true
+        Make sure you are running the [latest](https://bun.sh/docs/installation#upgrading) version of Bun.
+        The bug you are experiencing may already have been fixed.
 
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Screenshots
-      description: If available, add screenshots here to help explain the issue.
+        Please try to include as much information as possible.
 
   - type: input
-    id: operating-system
     attributes:
-      label: Operating System
-      placeholder: ...
-
+      label: What version of Bun is running?
+      description: Copy the output of `bun --revision`
   - type: input
-    id: browser
     attributes:
-      label: Browser
-      placeholder: ...
-
-  - type: input
-    id: application-version
-    attributes:
-      label: Application Version
-      placeholder: ...
-
+      label: What platform is your computer?
+      description: |
+        For MacOS and Linux: copy the output of `uname -mprs`
+        For Windows: copy the output of `"$([Environment]::OSVersion | ForEach-Object VersionString) $(if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" })"` in the PowerShell console
   - type: textarea
-    id: additional-context
     attributes:
-      label: Additional Context
-      description: Add any other information about the issue here.
-      placeholder: ...
+      label: What steps can reproduce the bug?
+      description: Explain the bug and provide a code snippet that can reproduce it.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What is the expected behavior?
+      description: If possible, please provide text instead of a screenshot.
+  - type: textarea
+    attributes:
+      label: What do you see instead?
+      description: If possible, please provide text instead of a screenshot.
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Is there anything else you think we should know?
