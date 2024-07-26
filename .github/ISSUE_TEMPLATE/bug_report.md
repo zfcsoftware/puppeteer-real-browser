@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Please fill in the fields below completely to ensure the issue can be checked and resolved. If the issue cannot be reproduced, please do not create a new issue, as we cannot resolve an issue that cannot be reproduced.
+about: Please fill out the fields below completely in order to resolve the issue. If the issue is not reproducible, please do not create a new issue.
 title: "[BUG] "
 labels: bug
 assignees: ''
