@@ -1,35 +1,37 @@
-export const checkStat = ({ page }) => {
-    return new Promise(async (resolve, reject) => {
+const checkStatNested = async ({ page }) => {
+    try {
+        const elements = await page.$$('[name="cf-turnstile-response"]');
 
-        var st = setTimeout(() => {
-            clearInterval(st)
-            resolve(false)
-        }, 4000);
-        try {
+        if (elements.length <= 0) return false;
 
-            const elements = await page.$$('[name="cf-turnstile-response"]');
+        for (const element of elements) {
+            try {
+                const parentElement = await element.evaluateHandle(el => el.parentElement);
 
-            if (elements.length <= 0) return resolve(false);
+                const box = await parentElement.boundingBox();
 
-            for (const element of elements) {
-                try {
-                    const parentElement = await element.evaluateHandle(el => el.parentElement);
+                const x = box.x + box.width / 2;
+                const y = box.y + box.height / 2;
 
-                    const box = await parentElement.boundingBox();
-
-                    const x = box.x + box.width / 2;
-                    const y = box.y + box.height / 2;
-
-                    await page.mouse.click(x, y);
-                } catch (err) { }
-            }
-            clearInterval(st)
-            resolve(true)
-        } catch (err) {
-            // console.log(err);
-            clearInterval(st)
-            resolve(false)
+                await page.mouse.click(x, y);
+            } catch (err) { }
         }
-    })
+        return true
+    } catch (err) {
+        // console.log(err);
+        return false
+    }
 }
 
+export const checkStat = async (params) => {
+    let interval;
+
+    return Promise.race([
+        new Promise((resolve) => {
+            interval = setTimeout(resolve, 4000, false);
+        }),
+        checkStatNested(params).catch((err) => false),
+    ]).finally(() => {
+        clearTimeout(interval);
+    });
+}
