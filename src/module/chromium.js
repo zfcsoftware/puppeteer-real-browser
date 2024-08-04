@@ -22,12 +22,15 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
 
         const platform = slugify(process.platform)
 
-        if (platform.includes('linux') && headless === false) {
+        const isLinuxPlatform = platform.includes('linux')
+		const isWindowsPlatform = platform.includes('win')
+
+        if (isLinuxPlatform && headless === false) {
             notice({
                 message: 'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
                 type: 'error'
             })
-        } else if (platform.includes('win') && headless === true) {
+        } else if (isWindowsPlatform && headless === true) {
             notice({
                 message: 'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
                 type: 'error'
@@ -35,20 +38,20 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
         }
 
         if (headless === 'auto') {
-            headless = platform.includes('linux')
+            headless = isLinuxPlatform
         }
 
         const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080'].concat(args);
 
         if (headless === true) {
-            platform.includes('win') && chromeFlags.push('--headless=new')
+            isWindowsPlatform && chromeFlags.push('--headless=new')
         }
 
         if (proxy && proxy.host && proxy.host.length > 0) {
             chromeFlags.push(`--proxy-server=${proxy.host}:${proxy.port}`);
         }
 
-        if (process.platform === 'linux') {
+        if (isLinuxPlatform === true) {
             try {
                 const { default: Xvfb } = await import('xvfb')
 
