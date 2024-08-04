@@ -22,12 +22,14 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
             var xvfbsession = null
             var chromePath = customConfig.executablePath || customConfig.chromePath || puppeteer.executablePath()
 
-            if (slugify(process.platform).includes('linux') && headless === false) {
+            const platform = slugify(process.platform)
+
+            if (platform.includes('linux') && headless === false) {
                 notice({
                     message: 'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
                     type: 'error'
                 })
-            } else if (slugify(process.platform).includes('win') && headless === true) {
+            } else if (platform.includes('win') && headless === true) {
                 notice({
                     message: 'This library is stable with headless: true in linuxt environment and headless: false in Windows environment. Please send headless: \'auto\' for the library to work efficiently.',
                     type: 'error'
@@ -35,13 +37,13 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
             }
 
             if (headless === 'auto') {
-                headless = slugify(process.platform).includes('linux') ? true : false
+                headless = platform.includes('linux') ? true : false
             }
 
             const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080'].concat(args);
 
             if (headless === true) {
-                slugify(process.platform).includes('win') ? chromeFlags.push('--headless=new') : ''
+                platform.includes('win') ? chromeFlags.push('--headless=new') : ''
             }
 
             if (proxy && proxy.host && proxy.host.length > 0) {

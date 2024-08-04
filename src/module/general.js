@@ -21,10 +21,8 @@ export const notice = ({ message = '', type = 'warning' }) => {
     return true
 }
 
-
 export function slugify(text) {
-    text = String(text)
-    return text
+    return String(text)
         .toUpperCase()
         .toLowerCase()
         .normalize('NFD')
