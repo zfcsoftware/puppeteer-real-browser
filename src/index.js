@@ -23,7 +23,7 @@ export const connect = async ({
     connectOption = {},
     fpconfig = {}
 }) => {
-    var global_target_status = false
+    let globalTargetStatus = false
 
     function targetFilter({ target, skipTarget }) {
         if (target.type() === 'page') return true;
@@ -32,9 +32,9 @@ export const connect = async ({
             if (turnstile === true && target._getTargetInfo().type == "iframe") return false
         } catch (err) { }
 
-        if (global_target_status === false) return true
+        if (globalTargetStatus === false) return true
 
-        var response = false
+        let response = false
 
         try {
             response = !!target.url()
@@ -47,7 +47,7 @@ export const connect = async ({
     }
 
     const setTarget = ({ status = true }) => {
-        global_target_status = status
+        globalTargetStatus = status
     }
 
     customConfig = {
@@ -57,15 +57,13 @@ export const connect = async ({
     }
     args.push('--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080');
     const { browser, xvfbsession } = await startSession({
-        args: args,
-        headless: headless,
-        customConfig: customConfig,
-        proxy: proxy
+        args,
+        headless,
+        customConfig,
+        proxy
     })
 
-    var page = await browser.pages()
-
-    page = page[0]
+    const [page] = await browser.pages()
 
     setTarget({ status: true })
 
@@ -73,27 +71,27 @@ export const connect = async ({
         await page.authenticate({ username: proxy.username, password: proxy.password });
     }
 
-    var solve_status = true
+    let solveStatus = true
 
     const setSolveStatus = ({ status }) => {
-        solve_status = status
+        solveStatus = status
     }
 
     const autoSolve = async ({ page }) => {
-        while (solve_status) {
+        while (solveStatus) {
             try {
                 await sleep(1500)
-                await checkStat({ page: page }).catch(err => { })
+                await checkStat({ page }).catch(err => { })
             } catch (err) { }
         }
     }
 
     if (fingerprint === true) {
-        handleNewPage({ page: page, config: fpconfig });
+        handleNewPage({ page, config: fpconfig });
     }
     if (turnstile === true) {
         setSolveStatus({ status: true })
-        autoSolve({ page: page, browser: browser })
+        autoSolve({ page, browser })
     }
 
     // await page.setUserAgent(chromeSession.agent);
@@ -111,13 +109,11 @@ export const connect = async ({
 
         try { setSolveStatus({ status: false }) } catch (err) { }
 
-        await closeSession({
-            xvfbsession: xvfbsession
-        }).catch(err => { console.log(err.message); })
+        await closeSession({ xvfbsession }).catch(err => { console.log(err.message); })
     });
 
     browser.on('targetcreated', async target => {
-        var newPage = await target.page();
+        const newPage = await target.page();
 
         try {
             // await newPage.setUserAgent(chromeSession.agent);
@@ -146,9 +142,9 @@ export const connect = async ({
     });
 
     return {
-        browser: browser,
-        page: page,
-        xvfbsession: xvfbsession,
-        setTarget: setTarget
+        browser,
+        page,
+        xvfbsession,
+        setTarget
     }
 }

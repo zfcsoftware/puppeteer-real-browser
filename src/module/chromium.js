@@ -17,8 +17,8 @@ export const closeSession = async ({ xvfbsession }) => {
 
 export const startSession = async ({ args = [], headless = 'auto', customConfig = {}, proxy = {} }) => {
     try {
-        var xvfbsession = null
-        var chromePath = customConfig.executablePath || customConfig.chromePath || puppeteer.executablePath()
+        let xvfbsession = null
+        const chromePath = customConfig.executablePath || customConfig.chromePath || puppeteer.executablePath()
 
         const platform = slugify(process.platform)
 
@@ -35,13 +35,13 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
         }
 
         if (headless === 'auto') {
-            headless = platform.includes('linux') ? true : false
+            headless = platform.includes('linux')
         }
 
         const chromeFlags = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080'].concat(args);
 
         if (headless === true) {
-            platform.includes('win') ? chromeFlags.push('--headless=new') : ''
+            platform.includes('win') && chromeFlags.push('--headless=new')
         }
 
         if (proxy && proxy.host && proxy.host.length > 0) {
@@ -52,7 +52,7 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
             try {
                 const { default: Xvfb } = await import('xvfb')
 
-                var xvfbsession = new Xvfb({
+                xvfbsession = new Xvfb({
                     silent: true,
                     xvfb_args: ['-screen', '0', '1920x1080x24', '-ac']
                 });
@@ -82,11 +82,10 @@ export const startSession = async ({ args = [], headless = 'auto', customConfig 
 
         return {
             browser,
-            xvfbsession: xvfbsession
+            xvfbsession
         }
     } catch (err) {
         console.log(err);
         throw new Error(err.message)
     }
 }
-
