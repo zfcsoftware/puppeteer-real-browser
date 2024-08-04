@@ -1,4 +1,3 @@
-import Xvfb from 'xvfb';
 import { notice, slugify } from './general.js'
 import puppeteer from 'puppeteer'
 const __dirname = import.meta.dirname;
@@ -51,6 +50,8 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
 
             if (process.platform === 'linux') {
                 try {
+                    const { default: Xvfb } = await import('xvfb')
+
                     var xvfbsession = new Xvfb({
                         silent: true,
                         xvfb_args: ['-screen', '0', '1920x1080x24', '-ac']
