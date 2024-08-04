@@ -61,7 +61,7 @@ export const startSession = ({ args = [], headless = 'auto', customConfig = {}, 
                     xvfbsession.startSync();
                 } catch (err) {
                     notice({
-                        message: 'You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb\n\n' + err.message,
+                        message: `You are running on a Linux platform but do not have xvfb installed. The browser can be captured. Please install it with the following command\n\nsudo apt-get install xvfb\n\n${err.message}`,
                         type: 'error'
                     })
                 }
