@@ -29,9 +29,9 @@
   "author": "zfc-software",
   "license": "ISC",
   "dependencies": {
-    "cli-color": "^2.0.3",
+    "picocolors": "^1.0.1",
     "puppeteer": "^22.8.2",
-    "puppeteer-afp": "https://github.com/zfcsoftware/puppeteer-afp/tree/master",
+    "puppeteer-afp": "github:zfcsoftware/puppeteer-afp#master",
     "xvfb": "^0.4.0"
   },
   "repository": {

@@ -1,12 +1,12 @@
 import { connect } from './index.js'
 
-var dataset = {
+const dataset = {
     success: 0,
     failed: 0
 }
 
 console.log("Launching the browser...");
-var { page, browser } = await connect({
+const { page, browser } = await connect({
     headless: 'auto',
     args: [],
     customConfig: {},
@@ -49,14 +49,14 @@ async function checkCaptcha() {
     await new Promise((resolve) => { setTimeout(() => { resolve() }, 500) })
     console.log('Navigated to page');
     const token = await page.evaluate(() => {
-        var cl = setTimeout(() => {
+        const cl = setTimeout(() => {
             resolve(false)
         }, 60000);
         return new Promise((resolve) => {
             const input = document.querySelector('input[name="cf-turnstile-response"]');
             if (input) {
                 const observer = new MutationObserver((mutations) => {
-                    var mutation = mutations.find((mutation) => { return mutation.type === 'attributes' && mutation.attributeName === 'value' });
+                    const mutation = mutations.find((mutation) => { return mutation.type === 'attributes' && mutation.attributeName === 'value' });
                     if (mutation && input.value.length > 3 && !input.value.includes('DUMMY')) {
                         clearInterval(cl)
                         return resolve(input.value)
@@ -84,7 +84,7 @@ async function recaptchav3() {
     console.log('Navigated to page');
     const score = await page.evaluate(() => {
         return new Promise((resolve) => {
-            var cl = setTimeout(() => {
+            const cl = setTimeout(() => {
                 resolve(false)
             }, 8000);
             grecaptcha.ready(function () {
@@ -98,7 +98,6 @@ async function recaptchav3() {
                     });
                 });
             });
-
         })
     })
     if (score === false) {
@@ -116,9 +115,6 @@ async function recaptchav3() {
 
     return
 }
-
-
-
 
 await checkWaf()
 await checkCaptcha()

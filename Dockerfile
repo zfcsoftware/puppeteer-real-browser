@@ -1,5 +1,5 @@
-# Use the official Node.js 16 image as the base image
-FROM node:latest
+# Use the official Node.js 20 image as the base image
+FROM node:20
 RUN npm config set registry https://registry.npmjs.org/
 RUN npm cache clean --force
 # Install necessary dependencies for running Chrome
