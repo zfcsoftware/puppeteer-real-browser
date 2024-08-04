@@ -1,3 +1,6 @@
+/**
+ * @param {{ page: import('puppeteer').Page }} params
+ */
 const checkStatNested = async ({ page }) => {
     try {
         const elements = await page.$$('[name="cf-turnstile-response"]');
@@ -23,6 +26,10 @@ const checkStatNested = async ({ page }) => {
     }
 }
 
+/**
+ * @param {{ page: import('puppeteer').Page }} params
+ * @returns {Promise<boolean>}
+ */
 export const checkStat = async (params) => {
     let interval;
 

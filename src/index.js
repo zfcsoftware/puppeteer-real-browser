@@ -12,6 +12,25 @@ async function handleNewPage({ page, config = {} }) {
     return page
 }
 
+/**
+ * @param {{
+*  args?: string[]
+*  headless?: 'auto' | boolean
+*  customConfig?: import('chrome-launcher').Options
+*  proxy?: {
+*   host?: string
+*   port?: number
+*   username?: string
+*   password?: string
+*  }
+*  skipTarget?: string[]
+*  fingerprint?: boolean
+*  turnstile?: boolean
+*  connectOption?: import('puppeteer').ConnectOptions
+*  fpconfig?: Record<string, any>
+* }} params 
+* @returns 
+*/
 export const connect = async ({
     args = [],
     headless = 'auto',
