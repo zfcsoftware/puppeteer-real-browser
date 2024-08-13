@@ -17,7 +17,7 @@ export const checkStat = ({ page }) => {
 
                     const box = await parentElement.boundingBox();
 
-                    const x = box.x + box.width / 2;
+                    const x = box.x + 30;
                     const y = box.y + box.height / 2;
 
                     await page.mouse.click(x, y);

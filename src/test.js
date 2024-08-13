@@ -15,7 +15,7 @@ var { page, browser } = await connect({
     turnstile: true,
     connectOption: {}
 })
-// setInterval(() => { page.screenshot({ path: 'example.png' }).catch(err => { }); }, 1000);
+setInterval(() => { page.screenshot({ path: 'example.png' }).catch(err => { }); }, 1000);
 console.log("The browser is launched...");
 async function checkWaf() {
     console.log('WAF testing started');
