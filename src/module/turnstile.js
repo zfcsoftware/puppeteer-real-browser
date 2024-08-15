@@ -17,10 +17,18 @@ export const checkStat = ({ page }) => {
 
                     const box = await parentElement.boundingBox();
 
-                    const x = box.x + 30;
-                    const y = box.y + box.height / 2;
+                    let x = box.x + 30;
+                    let y = box.y + box.height / 2;
 
                     await page.mouse.click(x, y);
+                    try {
+                        x += 30
+                        await page.mouse.click(x, y);
+                    } catch (err) { }
+                    try {
+                        x += 30
+                        await page.mouse.click(x, y);
+                    } catch (err) { }
                 } catch (err) { }
             }
             clearInterval(st)
