@@ -30,7 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "cli-color": "^2.0.3",
-    "puppeteer": "^22.8.2",
+    "puppeteer": "^23.1.1",
     "puppeteer-afp": "https://github.com/zfcsoftware/puppeteer-afp/tree/master",
     "xvfb": "^0.4.0"
   },
