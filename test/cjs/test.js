@@ -4,7 +4,7 @@ const { connect } = require('../../lib/cjs/index.js');
 
 
 const realBrowserOption = {
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [],
     turnstile: true,
     headless: false
 }

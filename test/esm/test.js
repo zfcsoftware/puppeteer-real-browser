@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { connect } from '../../lib/esm/index.mjs';
 
 const realBrowserOption = {
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [],
     turnstile: true,
     headless: false,
     // disableXvfb: true
