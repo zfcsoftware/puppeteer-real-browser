@@ -1,0 +1,1 @@
+cmd_Release/obj.target/node_sleep.node := g++ -o Release/obj.target/node_sleep.node -shared -pthread -rdynamic -m64  -Wl,-soname=node_sleep.node -Wl,--start-group Release/obj.target/node_sleep/module_init.o Release/obj.target/node_sleep/sleep_cpp11.o Release/obj.target/node_sleep/sleep_posix.o Release/obj.target/node_sleep/sleep_win.o -Wl,--end-group 

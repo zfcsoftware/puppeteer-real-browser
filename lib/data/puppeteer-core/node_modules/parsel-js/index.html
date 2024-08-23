@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Parsel: A tiny, permissive CSS selector parser</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel="shortcut icon" href="assets/favicon.svg">
+	<link rel="stylesheet" href="assets/prism.css">
+	<link rel="stylesheet" href="assets/style.css">
+	<script>
+	{
+		const url = new URL(location);
+		if (url.host === 'projects.verou.me') {
+			url.host = 'parsel.verou.me';
+			url.pathname = url.pathname.replace(/^\/parsel\//, '/');
+			window.location.href = url.toString();
+		}
+	}
+	</script>
+</head>
+<body class="language-javascript">
+
+<header>
+	<h1>parsel</h1>
+	<h2>A tiny, permissive CSS selector parser</h2>
+
+	<ul>
+		<li>Easy to <a href="#usage">use</a></li>
+		<li>Simple <a href="#api">API</a></li>
+		<li>Parse & traverse CSS selectors</li>
+		<li>Calculate specificity</li>
+		<li>Only <a href="https://bundlephobia.com/result?p=parsel-js@latest">2KB</a> and no dependencies</li>
+		<li>Supports the entire <a href="https://w3.org/TR/selectors-4">Selectors 4</a> syntax</li>
+		<li>Permissive enough to work with a lot of potential future syntax</li>
+		<li><a href="#extensibility">Extensible</a></li>
+	</ul>
+</header>
+
+<section id="tryout">
+	<header>
+		<label>
+			Selector:
+			<input type="text" id="selectorText" autofocus value="#foo > .bar + div.k1.k2 [id='baz']:hello(2):not(:where(#yolo))::before">
+		</label>
+		<label>
+			<input type="checkbox" id="recursive" checked>
+			Recursive (parse arguments of <code>:not()</code>, <code>:is()</code>, <code>:where()</code> etc)
+		</label>
+	</header>
+	<div id="specificity-display">
+		Specificity:
+		<code>parsel.specificity(selector);</code>
+		<strong id="specificity"></strong></div>
+	<div id="results">
+		<article>
+			<h2>Tokens <code>parsel.tokenize(selector);</code></h2>
+			<pre><code id="tokens" class="language-json"></code></pre>
+		</article>
+		<article>
+			<h2>AST <code>parsel.parse(selector);</code></h2>
+			<pre><code id="tree" class="language-json"></code></pre>
+		</article>
+	</div>
+</section>
+
+<section id="usage">
+	<h2>Usage</h2>
+
+	<p>Parsel is an ES module. You import it like so:</p>
+
+	<pre><code>import * as parsel from "https://parsel.verou.me/dist/parsel.js"</code></pre>
+
+	<p>Note that to use that your script needs to use <code>type="module"</code> or be imported from a script that does.
+		If you can't or don't want to use ES modules you can use <code>parsel_nomodule.js</code> in a regular <code>&lt;script></code> tag:
+	</p>
+
+	<pre class="language-markup"><code>
+		&lt;script src="https://parsel.verou.me/dist/nomodule/parsel.js">&lt;/script>
+	</code></pre>
+
+	<p>After that, you can use <code>parsel</code> as a global.</p>
+
+	<p>Fun fact: You could also use the module version of Parsel and convert it to a global this way:
+
+	<pre class="language-markup"><code>
+		&lt;script type="module">
+			import * as parsel from "https://parsel.verou.me/dist/parsel.js";
+			window.parsel = parsel;
+		&lt;/script>
+	</code></pre>
+
+	<p>Then, assuming your code runs after the <code>DOMContentLoaded</code> event, you can use the global normally.
+		In fact, we are assigning <code>parsel</code> to a global in this very page this way, so you can open your console and play with it!</p>
+
+	<p>You can also install via npm: <code>npm install <a href="https://www.npmjs.com/package/parsel-js">parsel-js</a></code></p>
+</section>
+
+<section id="api">
+	<h2>API</h2>
+
+	<p>Get list of tokens as a flat array:</p>
+
+	<pre><code>parsel.tokenize(selector)</code></pre>
+
+	<p>Get AST:</p>
+
+	<pre><code>parsel.parse(selector)</code></pre>
+
+	<p>You can also provide options:</p>
+
+	<pre><code>parsel.parse(selector, {recursive: false, list: false})</code></pre>
+
+	<p>The <code>recursive</code> option parses the arguments of pseudo-classes whose argument is a selector like <code>:not()</code>, <code>:is()</code>, <code>:where()</code> etc into a <code>subtree</code> property.
+	The <code>list</code> option parses selector lists (<code>A, B, C</code>). The only reason to turn it off is as a performance optimization when you are processing a large volume of selectors that are not lists (e.g. the output of certain CSS parsers like Rework)</p>
+
+	<p>Traverse all tokens of a (sub)tree:</p>
+
+	<pre><code>parsel.walk(node, callback)</code></pre>
+
+	<p><code>callback</code> is called with each node as the only argument.</p>
+
+	<p>Generate all tokens of a (sub)tree:</p>
+
+	<pre><code>parsel.flatten(node)</code></pre>
+
+	<p>This can be looped through with <code>for ... of</code>. Uses the same order as <code>walk</code></p>
+
+	<p>Convert a list of tokens or a (sub)tree to a string:</p>
+
+	<pre><code>parsel.stringify(listOrNode)</code></pre>
+
+	<p>Calculate specificity (returns an array of 3 numbers):</p>
+
+	<pre><code>parsel.specificity(selectorOrNode)</code></pre>
+
+	<p>To convert the specificity array to a number, you can use <code>parsel.specificityToNumber(specificity [, base])</code>.
+		If a base is not provided, it will be the max specificity component + 1.</p>
+
+	<p><strong>Try it out!</strong> In this page, <code>parsel</code> is assigned to a global so you can experiment with the API in the console!</p>
+</section>
+
+<section id="extensibility">
+	<h2>Extensibility</h2>
+
+	<p>You can import <code>TOKENS</code> and add new types.
+	All values need to be regular expression objects with the global flag on.
+	For example, to add the <a href="https://drafts.csswg.org/css-nesting/#nesting-selector">nesting selector</a>:
+
+	<pre><code>
+		parsel.TOKENS.nesting = /&/g;
+	</code></pre>
+
+	<p>Do note that this way, new tokens are added to the end of the object literal.
+		You may want to add tokens before other tokens, e.g. to add support for <a href="https://drafts.csswg.org/css-nesting/#at-nest"><code>@nest</code></a>.
+		This is a little tricky, because you cannot just replace the object literal with another,
+		so the only way to add a property after another property is to <strong>delete</strong> all properties after that property, add your new property, then re-add them.
+	</p>
+
+	<p>So, to add support for <code>@nest</code>, we need to add it before the <code>type</code> token, since <code>@nest</code> tokens are currently incorrectly parsed as <code>type</code> tokens.
+		Since <code>type</code> is the very last token, we only need to delete and re-add that:</p>
+
+	<pre><code>
+		// Delete property type
+		let temp = {};
+		temp.type = parsel.TOKENS.type;
+		delete parsel.TOKENS.type;
+
+		// Add new token
+		parsel.TOKENS.nest = /@nest\b/g;
+
+		// Re-add type
+		parsel.TOKENS.type = temp.type;
+	</code></pre>
+
+	<p>This can get tedious, so you can use a helper function for that:</p>
+
+	<pre><code>
+		function insert(obj, {before, property, value}) {
+			let found, temp = {};
+
+			for (let p in obj) {
+				if (p === before) {
+					found = true;
+				}
+
+				if (found) {
+					temp[p] = obj[p];
+					delete obj[p];
+				}
+			}
+
+			Object.assign(obj, {property: value, ...temp});
+		}
+	</code></pre>
+
+	<p>Then you can do:</p>
+
+	<pre><code>
+		insert(parsel.TOKENS, {before: "type", property: "nest", value: /@nest\b/g});
+	</code></pre>
+
+	<p>For convenience, you can also find this helper function in <a href="insert.js"><code>insert.js</code></a>, and you can just import it:</p>
+
+	<pre><code>
+		import insert from "./parsel/insert.js";
+		insert(parsel.TOKENS, {before: "type", property: "nest", value: /@nest\b/g});
+	</code></pre>
+
+	<p>There are also some <a href="https://gist.github.com/LeaVerou/2881cc634df29c9d1c89fcb965f699f0">alternative implementations</a> of this helper available.</p>
+</section>
+
+<footer>
+	<p>Made with ❤ by <a href="https://lea.verou.me">Lea Verou</a>
+		&bull; <a href="test.html">Tests</a>
+		&bull; <a href="https://github.com/leaverou/parsel">Github</a>
+</footer>
+
+<script type="module">
+import * as parsel from "./dist/parsel.js";
+
+self.parsel = parsel; // so that people can experiment in the console
+
+let url = new URL(location);
+const selector = url.searchParams.get("selector");
+if (selector) {
+	selectorText.value = selector;
+}
+
+(tryout.oninput = e => {
+	url = new URL(location);
+	url.searchParams.set("selector", selectorText.value);
+	history.replaceState(null, '', url);
+
+	tokens.textContent = JSON.stringify(parsel.tokenize(selectorText.value), null, "\t");
+	Prism.highlightElement(tokens);
+
+	try {
+		tree.textContent = JSON.stringify(parsel.parse(selectorText.value, {recursive: recursive.checked}), null, "\t");
+		tree.classList.remove("error");
+		specificity.textContent = parsel.specificity(selectorText.value);
+		Prism.highlightElement(tree);
+	}
+	catch (e) {
+		tree.classList.add("error");
+		tree.innerHTML = `<details><summary>${e}</summary>${e.stack.replace(e, "")}</details>`;
+	}
+})();
+</script>
+<script src="assets/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "author": "Rob Wu <rob@robwu.nl> (https://robwu.nl)",
+  "contributors": [
+    "ProxV, Inc. <support@proxv.com> (http://proxv.com)"
+  ],
+  "name": "xvfb",
+  "description": "Easily start and stop an X Virtual Frame Buffer from your node apps.",
+  "version": "0.4.0",
+  "repository": {
+    "url": "https://github.com/Rob--W/node-xvfb.git"
+  },
+  "optionalDependencies": {
+    "sleep": "6.1.0"
+  },
+  "license": "MIT"
+}

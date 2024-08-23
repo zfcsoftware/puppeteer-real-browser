@@ -1,0 +1,30 @@
+{
+  "name": "sleep",
+  "version": "6.1.0",
+  "main": "index.js",
+  "description": "Add sleep() and usleep() to nodejs",
+  "homepage": "http://github.com/erikdubbelboer/node-sleep",
+  "author": "Erik Dubbelboer <erik@dubbelboer.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "keywords": [
+    "sleep",
+    "usleep"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikdubbelboer/node-sleep.git"
+  },
+  "dependencies": {
+    "nan": "^2.13.2"
+  },
+  "devDependencies": {
+    "mocha": "^4.1.0"
+  },
+  "gypfile": true
+}
