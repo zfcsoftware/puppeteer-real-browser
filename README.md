@@ -145,6 +145,20 @@ docker run puppeteer-real-browser-project
 
 This library is completely open source and is constantly being updated. Please star this repo to support this project. Starring and supporting the project will ensure that it receives updates. If you want to support it further, you can consider sponsoring me (https://github.com/sponsors/zfcsoftware)
 
+
+## Quick Questions and Answers
+
+### page.setViewport method is not working, what should I do?
+As with the initialization arguments in the test module, you can set the defaultViewport in connectOption. If you set null, it will take up as much space as the width of the Browser.
+
+### Does the library have any known detection problems? 
+using puppeteer-core patched with rebrowser. Tested with the challenging sites in the test file in headless false mode and passed with flying colors. The only known issue is that the mouse screeenX does not match the mouse position. This has been patched in the library. 
+
+The ghost-cursor is included in the library. (https://github.com/zfcsoftware/puppeteer-real-browser/blob/2a5fba37a85c15625fb3c8d1f7cf8dcb109b9492/lib/cjs/module/pageController.js#L54) You can use ghost-cursor with page.realCursor. page.click It is recommended to use page.realClick instead of page.click.
+
+### What Makes This Library Special?
+This library does not have any amazing features. I apply patches created to avoid current bot detection systems, and it is the people who make these patches who should be thanked. This library is just to make your work easier and keep you up to date. There are my contributions in it, but the main contributors are under the “thanks” heading. Please star those repos and support the authors. Thank you.
+
 ## License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/zfcsoftware/puppeteer-real-browser/blob/main/LICENSE.md) for more information.

@@ -4,9 +4,15 @@ const { connect } = require('../../lib/cjs/index.js');
 
 
 const realBrowserOption = {
-    args: [],
+    args: ["--start-maximized"],
     turnstile: true,
-    headless: false
+    headless: false,
+    // disableXvfb: true,
+    customConfig: {
+    },
+    connectOption: {
+        defaultViewport: null
+    }
 }
 
 test('DrissionPage Detector', async () => {

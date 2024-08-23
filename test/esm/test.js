@@ -3,10 +3,15 @@ import assert from 'node:assert';
 import { connect } from '../../lib/esm/index.mjs';
 
 const realBrowserOption = {
-    args: [],
+    args: ["--start-maximized"],
     turnstile: true,
     headless: false,
-    // disableXvfb: true
+    // disableXvfb: true,
+    customConfig: {
+    },
+    connectOption: {
+        defaultViewport: null
+    }
 }
 
 
