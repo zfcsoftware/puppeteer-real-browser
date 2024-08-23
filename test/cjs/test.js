@@ -49,8 +49,12 @@ test('Cloudflare Turnstile', async () => {
     let startDate = Date.now()
     while (!token && (Date.now() - startDate) < 30000) {
         token = await page.evaluate(() => {
-            let item = document.querySelector('[name="cf-turnstile-response"]').value
-            return item && item.length > 20 ? item : null
+            try {
+                let item = document.querySelector('[name="cf-turnstile-response"]').value
+                return item && item.length > 20 ? item : null
+            } catch (e) {
+                return null
+            }
         })
         await new Promise(r => setTimeout(r, 1000));
     }
