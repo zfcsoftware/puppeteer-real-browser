@@ -51,9 +51,9 @@ sudo apt-get install xvfb
 ### CommonJS
 
 ```js
+const { connect } = require('puppeteer-real-browser');
 
 const start = async () => {
-    const { connect } = require('puppeteer-real-browser');
     const { page, browser } = await connect({})
 }
 
@@ -77,7 +77,7 @@ const { connect } = require("puppeteer-real-browser")
 
 async function test() {
 
-    const { browser, page } = connect({
+    const { browser, page } = await connect({
 
         headless: false,
 
