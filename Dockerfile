@@ -25,8 +25,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install Node.js dependencies
-RUN npm update --verbose
-RUN npm install --verbose
+RUN npm update
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
