@@ -117,6 +117,42 @@ async function test() {
 
 **disableXvfb:** In Linux, when headless is false, a virtual screen is created and the browser is run there.  You can set this value to true if you want to see the browser.
 
+## How to Install Puppeteer-extra Plugins?
+Some plugins, such as puppeteer-extra-plugin-anonymize-ua, may cause you to be detected. You can use the plugin installation test in the library's test file to see if it will cause you to be detected.
+
+The following is an example of installing a plugin. You can install other plugins in the same way as this example.
+
+```bash
+npm i puppeteer-extra-plugin-click-and-wait
+```
+
+```js
+
+const test = require('node:test');
+const assert = require('node:assert');
+const { connect } = require('puppeteer-real-browser');
+
+test('Puppeteer Extra Plugin', async () => {
+    const { page, browser } = await connect({
+        args: ["--start-maximized"],
+        turnstile: true,
+        headless: false,
+        // disableXvfb: true,
+        customConfig: {},
+        connectOption: {
+            defaultViewport: null
+        },
+        plugins: [
+            require('puppeteer-extra-plugin-click-and-wait')()
+        ]
+    })
+    await page.goto("https://google.com", { waitUntil: "domcontentloaded" })
+    await page.clickAndWaitForNavigation('body')
+    await browser.close()
+})
+
+```
+
 ## Docker
 
 You can use the Dockerfile file in the main directory to use this library with docker. It has been tested with docker on Ubuntu server operating systems.

@@ -7,13 +7,28 @@ const realBrowserOption = {
     turnstile: true,
     headless: false,
     // disableXvfb: true,
-    customConfig: {
-    },
+    customConfig: {},
     connectOption: {
         defaultViewport: null
-    }
+    },
+    plugins: []
 }
 
+
+// test('Puppeteer Extra Plugin', async () => {
+//     /*
+//     Run with:
+//     npm i puppeteer-extra-plugin-click-and-wait
+//     */
+//     const clickAndWait = await (await import('puppeteer-extra-plugin-click-and-wait')).default
+//     realBrowserOption.plugins = [
+//         clickAndWait()
+//     ]
+//     const { page, browser } = await connect(realBrowserOption)
+//     await page.goto("https://google.com", { waitUntil: "domcontentloaded" })
+//     await page.clickAndWaitForNavigation('body')
+//     await browser.close()
+// })
 
 test('DrissionPage Detector', async () => {
     const { page, browser } = await connect(realBrowserOption)
@@ -83,11 +98,3 @@ test('Recaptcha V3 Score (hard)', async () => {
     // if (Number(score) >= 0.7) console.log('Recaptcha V3 Score: ' + score);
     assert.strictEqual(Number(score) >= 0.7, true, "Recaptcha V3 Score (hard) should be >=0.7. Score Result: " + score)
 })
-
-
-
-
-
-
-
-
