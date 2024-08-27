@@ -7,6 +7,7 @@ const realBrowserOption = {
     turnstile: true,
     headless: false,
     // disableXvfb: true,
+    // ignoreAllFlags:true,
     customConfig: {},
     connectOption: {
         defaultViewport: null

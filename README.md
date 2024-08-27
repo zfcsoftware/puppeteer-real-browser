@@ -90,7 +90,7 @@ async function test() {
         connectOption: {},
 
         disableXvfb: false,
-
+        ignoreAllFlags: false
         // proxy:{
         //     host:'<proxy-host>',
         //     port:'<proxy-port>',
@@ -103,19 +103,22 @@ async function test() {
 
 }
 
+test()
 ```
 
 **headless**: The default value is false. Values such as “new”, true, “shell” can also be sent, but it works most stable when false is used.
 
 **args:** If there is an additional flag you want to add when starting Chromium, you can send it with this string.
 
-**customConfig:** When launch is executed, the variables you send in be object are added. For example, you can specify the browser path with executablePath.
+**customConfig:** https://github.com/GoogleChrome/chrome-launcher The browser is initialized with this library. What you send with this object is added as a direct initialization argument. You should use the initialization values in this repo. You should set the userDataDir option here and if you want to specify a custom chrome path, you should set it with the chromePath value.
 
 **turnstile:** Cloudflare Turnstile automatically clicks on Captchas if set to true
 
 **connectOption:** The variables you send when connecting to chromium created with puppeteer.connect are added
 
 **disableXvfb:** In Linux, when headless is false, a virtual screen is created and the browser is run there.  You can set this value to true if you want to see the browser.
+
+**ignoreAllFlags** If true, all initialization arguments are overridden. This includes the let's get started page that appears on the first load.
 
 ## How to Install Puppeteer-extra Plugins?
 Some plugins, such as puppeteer-extra-plugin-anonymize-ua, may cause you to be detected. You can use the plugin installation test in the library's test file to see if it will cause you to be detected.
