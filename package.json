@@ -42,6 +42,9 @@
     "puppeteer-extra": "^3.3.6",
     "tree-kill": "^1.2.2"
   },
+  "devDependencies": {
+    "xvfb": "^0.4.0"
+  },
   "peerDependencies": {
     "xvfb": "*"
   },
