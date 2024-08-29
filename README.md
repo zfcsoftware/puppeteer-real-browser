@@ -109,6 +109,7 @@ test()
 **headless**: The default value is false. Values such as “new”, true, “shell” can also be sent, but it works most stable when false is used.
 
 **args:** If there is an additional flag you want to add when starting Chromium, you can send it with this string.
+Supported flags: https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
 
 **customConfig:** https://github.com/GoogleChrome/chrome-launcher The browser is initialized with this library. What you send with this object is added as a direct initialization argument. You should use the initialization values in this repo. You should set the userDataDir option here and if you want to specify a custom chrome path, you should set it with the chromePath value.
 
