@@ -7,9 +7,11 @@
   "exports": {
     ".": {
       "require": "./lib/cjs/index.js",
-      "import": "./lib/esm/index.mjs"
+      "import": "./lib/esm/index.mjs",
+      "types": "./typings.d.ts"
     }
   },
+  "typings": "typings.d.ts",
   "scripts": {
     "esm_test": "node ./test/esm/test.js",
     "cjs_test": "node ./test/cjs/test.js"
