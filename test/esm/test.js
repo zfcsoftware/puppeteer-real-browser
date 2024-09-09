@@ -87,6 +87,28 @@ test('Cloudflare Turnstile', async () => {
 
 
 
+test('Fingerprint JS Bot Detector', async () => {
+    const { page, browser } = await connect(realBrowserOption)
+    await page.goto("https://fingerprint.com/products/bot-detection/");
+    await new Promise(r => setTimeout(r, 5000));
+    const detect = await page.evaluate(() => {
+        return document.querySelector('.HeroSection-module--botSubTitle--2711e').textContent.includes("not") ? true : false
+    })
+    await browser.close()
+    assert.strictEqual(detect, true, "Fingerprint JS Bot Detector test failed!")
+})
+
+
+// If you fail this test, your ip address probably has a high spam score. Please use a mobile or clean ip address.
+test('Datadome Bot Detector', async (t) => {
+    const { page, browser } = await connect(realBrowserOption)
+    await page.goto("https://antoinevastel.com/bots/datadome");
+    const check = await page.waitForSelector('nav #navbarCollapse').catch(() => null)
+    await browser.close()
+    assert.strictEqual(check ? true : false, true, "Datadome Bot Detector test failed! [This may also be because your ip address has a high spam score. Please try with a clean ip address.]")
+})
+
+// If this test fails, please first check if you can access https://antcpt.com/score_detector/
 test('Recaptcha V3 Score (hard)', async () => {
     const { page, browser } = await connect(realBrowserOption)
     await page.goto("https://antcpt.com/score_detector/");
@@ -97,16 +119,5 @@ test('Recaptcha V3 Score (hard)', async () => {
     })
     await browser.close()
     // if (Number(score) >= 0.7) console.log('Recaptcha V3 Score: ' + score);
-    assert.strictEqual(Number(score) >= 0.7, true, "Recaptcha V3 Score (hard) should be >=0.7. Score Result: " + score)
-})
-
-test('Fingerprint JS Bot Detector', async () => {
-    const { page, browser } = await connect(realBrowserOption)
-    await page.goto("https://fingerprint.com/products/bot-detection/");
-    await new Promise(r => setTimeout(r, 5000));
-    const detect = await page.evaluate(() => {
-        return document.querySelector('.HeroSection-module--botSubTitle--2711e').textContent.includes("not") ? true : false
-    })
-    await browser.close()
-    assert.strictEqual(detect, true, "Fingerprint JS Bot Detector test failed!")
+    assert.strictEqual(Number(score) >= 0.7, true, "(please first check if you can access https://antcpt.com/score_detector/.) Recaptcha V3 Score (hard) should be >=0.7. Score Result: " + score)
 })
