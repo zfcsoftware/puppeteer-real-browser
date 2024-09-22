@@ -194,6 +194,10 @@ This problem is probably caused by the runtime being closed by the rebrowser use
 https://github.com/zfcsoftware/puppeteer-real-browser/tree/access-window
 I created a branch for this. You can access the value you want by adding javascript to the page source with puppeteer-intercept-and-modify-requests as done in success.js. If you know about the Chrome plugin, you can also use it.
 
+### https://antcpt.com/score_detector/ Recaptcha v3 detects me, what should I do?
+
+If you add the flag “--user-data-dir=/path/to/user/data” to the args variable, this will fix the problem. In the future this will be automated but for now it needs to be added manually.
+
 ### page.setViewport method is not working, what should I do?
 As with the initialization arguments in the test module, you can set the defaultViewport in connectOption. If you set null, it will take up as much space as the width of the Browser.
 
