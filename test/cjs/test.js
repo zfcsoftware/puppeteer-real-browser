@@ -63,8 +63,8 @@ test('Cloudflare WAF', async () => {
 
 test('Cloudflare Turnstile', async () => {
     const { page, browser } = await connect(realBrowserOption)
-    await page.goto("https://2captcha.com/demo/cloudflare-turnstile");
-    await page.waitForSelector('[data-action="demo_action"]')
+    await page.goto("https://turnstile.zeroclover.io/");
+    await page.waitForSelector('[type="submit"]')
     let token = null
     let startDate = Date.now()
     while (!token && (Date.now() - startDate) < 30000) {
