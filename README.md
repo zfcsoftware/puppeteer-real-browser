@@ -188,6 +188,12 @@ This library is completely open source and is constantly being updated. Please s
 
 ## Quick Questions and Answers
 
+### I Cannot Access Functions in Window Object What Should I Do?
+
+This problem is probably caused by the runtime being closed by the rebrowser used. 
+https://github.com/zfcsoftware/puppeteer-real-browser/tree/access-window
+I created a branch for this. You can access the value you want by adding javascript to the page source with puppeteer-intercept-and-modify-requests as done in success.js. If you know about the Chrome plugin, you can also use it.
+
 ### page.setViewport method is not working, what should I do?
 As with the initialization arguments in the test module, you can set the defaultViewport in connectOption. If you set null, it will take up as much space as the width of the Browser.
 
