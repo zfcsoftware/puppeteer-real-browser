@@ -1,0 +1,58 @@
+name: Report Issue
+description: Please use this to report any issue
+labels: [triage]
+assignees:
+  - zfcsoftware
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please take care to fill in all fields. Recreating the issue will speed up its resolution. Thank you for contributing to the betterment of the library by reporting issues.
+  - type: textarea
+    id: issue-detail
+    attributes:
+      label: Description
+      description: Please describe the problem you are experiencing. You only need to provide information about the problem in this field.
+    validations:
+      required: true
+  - type: textarea
+    id: issue-recreate
+    attributes:
+      label: Full steps to reproduce the issue
+      description: Please provide a full working code to reproduce the issue. Make sure that the code you provide is directly executable. This step is very important to resolve the issue.
+    validations:
+      required: true
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What type of issue would you like to report?
+      multiple: true
+      options:
+        - Bug
+        - Build/Install
+        - Performance
+        - Support
+        - Feature Request
+        - Documentation Request
+        - Others
+  - type: dropdown
+    id: Operating-System
+    attributes:
+      label: Operating System
+      description: What OS are you seeing the issue in? If you don't see your OS listed, please provide more details in the "Description" section above.
+      multiple: true
+      options:
+        - Windows 10
+        - Linux
+        - Mac OS
+        - Other
+  - type: dropdown
+    id: use-type
+    attributes:
+      label: Do you use Docker?
+      description: Are you running it with Docker or on your local computer?
+      multiple: false
+      options:
+        - Docker
+        - I don't use Docker
