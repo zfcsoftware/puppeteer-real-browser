@@ -27,7 +27,9 @@
   <img src="https://img.shields.io/github/license/zfcsoftware/puppeteer-real-browser" alt="License" />
 </p>
 
+## Sponsor
 
+[![Capsolver](data/capsolver.png)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=puppeteer-real-browser)
 
 ## Installation
 
