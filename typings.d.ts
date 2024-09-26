@@ -1,5 +1,5 @@
 declare module "puppeteer-real-browser" {
-	import type { Browser, Page } from "puppeteer-core-patch";
+	import type { Browser, Page } from "rebrowser-puppeteer-core";
 	import type { GhostCursor } from "ghost-cursor";
 
 	export function connect(options: Options): Promise<ConnectResult>;
@@ -20,7 +20,7 @@ declare module "puppeteer-real-browser" {
 		customConfig?: import("chrome-launcher").Options;
 		proxy?: ProxyOptions;
 		turnstile?: boolean;
-		connectOption?: import("puppeteer-core-patch").ConnectOptions;
+		connectOption?: import("rebrowser-puppeteer-core").ConnectOptions;
 		disableXvfb?: boolean;
 		plugins?: import("puppeteer-extra").PuppeteerExtraPlugin[];
 		ignoreAllFlags?: boolean;
